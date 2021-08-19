@@ -1,38 +1,26 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-// Components
-// Reactive Form Module
 import { ReactiveFormsModule } from '@angular/forms';
-
-// Firebase Modules
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from '../environments/environment';
-
-// Router Module
 import { AppRoutingModule } from './/app-routing.module';
-
-// Toaster for Alert Messages
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-
-// NGX Pagination
 import { NgxPaginationModule } from 'ngx-pagination';
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomePageComponent } from './home-page/home-page.component';
-
-
-import { PdfViewerModule } from 'ng2-pdf-viewer'; // <- import PdfViewerModule
+import { SavePdfDataComponent } from './save-pdf-data/save-pdf-data.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomePageComponent
+    HomePageComponent,
+    SavePdfDataComponent
   ],
   imports: [
     BrowserModule,
@@ -46,9 +34,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer'; // <- import PdfViewerModule
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,      
     }),
-    PdfViewerModule,
-    NgxPaginationModule  // NGX pagination module
-    
+    NgxPaginationModule,  // NGX pagination module
+    PdfViewerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

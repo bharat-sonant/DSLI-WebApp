@@ -1,4 +1,21 @@
-<title>Home page</title>
-<pdf-viewer [src]="pdfSource"
-              [original-size]="false"
-  ></pdf-viewer>
+
+<html>
+ <head>
+ </head>
+ <body>
+    <div class="container" style="display: flex; height: 100px;">
+        <div style="width: 500px;height: 550px; background:whitesmoke">
+            <pdf-viewer [src]="pdfSource" value="Get Selection" 
+            [original-size]="false"
+              ></pdf-viewer>
+        </div>
+        <div name="selectedText" style="flex-grow: 1; background: whitesmoke; height: 550px; overflow-y: scroll;">
+            <button class="showtext" (click)=" selectedText()">Show</button><br>
+           <div name="selectedtextview" *ngFor="let txt of textlist" class="selectedtextview">
+           {{txt.sno}}.    {{txt.text}}.<br/>
+            </div>
+           
+        </div>
+    </div>
+ </body>
+</html>
