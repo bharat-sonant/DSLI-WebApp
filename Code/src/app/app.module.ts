@@ -25,6 +25,9 @@ import { LoginComponent } from './login/login.component';
 import { HomePageComponent } from './home-page/home-page.component';
 
 
+import { PdfViewerModule } from 'ng2-pdf-viewer'; // <- import PdfViewerModule
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +46,7 @@ import { HomePageComponent } from './home-page/home-page.component';
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,      
     }),
+    PdfViewerModule,
     NgxPaginationModule  // NGX pagination module
     
   ],
