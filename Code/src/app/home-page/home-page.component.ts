@@ -1,5 +1,4 @@
 import { Component, OnInit,VERSION } from '@angular/core';
-import { PdfViewerModule } from 'ng2-pdf-viewer'; // <- import PdfViewerModule
 
 @Component({
   selector: 'app-home-page',
