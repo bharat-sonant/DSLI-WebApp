@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+
 
 @Component({
   selector: 'app-save-pdf-data',
@@ -6,7 +8,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./save-pdf-data.component.css']
 })
 export class SavePdfDataComponent {
+  constructor() {
+  }
 
-  pdfSrc="http://www.africau.edu/images/default/sample.pdf"
- 
+  timePeriods = [
+    'Bronze age',
+    'Iron age',
+    'Middle ages',
+    'Early modern period',
+    'Long nineteenth century'
+  ];
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.timePeriods, event.previousIndex, event.currentIndex);
+  }
+
 }

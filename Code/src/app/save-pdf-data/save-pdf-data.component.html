@@ -1,5 +1,3 @@
-<title>save-pdf-data</title>
-<div>
-    <h1>PDF VIEW</h1>
-    
+<div cdkDropList cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
+  <div class="example-box" *ngFor="let timePeriod of timePeriods" cdkDrag>{{timePeriod}}</div>
 </div>

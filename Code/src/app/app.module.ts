@@ -13,6 +13,8 @@ import { LoginComponent } from './login/login.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { SavePdfDataComponent } from './save-pdf-data/save-pdf-data.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import {MaterialModule} from './material-module';
+import {MatNativeDateModule} from '@angular/material/core';
 
 
 @NgModule({
@@ -35,7 +37,9 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
       preventDuplicates: true,      
     }),
     NgxPaginationModule,  // NGX pagination module
-    PdfViewerModule
+    PdfViewerModule,
+    MaterialModule,
+    MatNativeDateModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

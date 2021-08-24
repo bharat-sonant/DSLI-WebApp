@@ -7,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 // Include components for in which router service to be used
 import { LoginComponent } from './login/login.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { SavePdfDataComponent } from './save-pdf-data/save-pdf-data.component';
 
 
 // Routes array define component along with the path name for url
@@ -14,7 +15,8 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path:'login', component:LoginComponent},
   { path: '', redirectTo: 'home-page', pathMatch: 'full' },
-  { path:'home-page', component:HomePageComponent}
+  { path:'home-page', component:HomePageComponent},
+  { path:'save-pdf-data', component:SavePdfDataComponent}
 
 ];
 
