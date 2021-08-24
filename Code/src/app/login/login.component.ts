@@ -4,6 +4,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import * as $ from "jquery";
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 
 @Component({
@@ -17,6 +18,17 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   constructor(public db: AngularFireDatabase, public router: Router, public fb: FormBuilder) { }
 
+  timePeriods = [
+    'Bronze age',
+    'Iron age',
+    'Middle ages',
+    'Early modern period',
+    'Long nineteenth century'
+  ];
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.timePeriods, event.previousIndex, event.currentIndex);
+  }
   ngOnInit() {
    
     this.getLoginDetails()

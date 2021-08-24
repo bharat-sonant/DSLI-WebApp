@@ -1,21 +1,18 @@
+<div class="container" style="display: flex;  ">
 
-<html>
- <head>
- </head>
- <body>
-    <div class="container" style="display: flex; height: 100px;">
-        <div style="width: 500px;height: 550px; background:whitesmoke">
-            <pdf-viewer [src]="pdfSource" value="Get Selection" 
-            [original-size]="false"
-              ></pdf-viewer>
-        </div>
-        <div name="selectedText" style="flex-grow: 1; background: whitesmoke; height: 550px; overflow-y: scroll;">
-            <button class="showtext" (click)=" selectedText()">Show</button><br>
-           <div name="selectedtextview" *ngFor="let txt of textlist" class="selectedtextview">
-           {{txt.sno}}.    {{txt.text}}.<br/>
-            </div>
-           
-        </div>
+    <div style="width: 630px;height: 615px; background:whitesmoke; margin-top: 5px;">
+        <pdf-viewer [src]="pdfSource" value="Get Selection" [original-size]="false"></pdf-viewer>
     </div>
- </body>
-</html>
+    <div>
+        <button class="showtext" (click)=" selectedText()">&#8649;</button>
+    </div>
+    <div name="selectedText" class="pdfmat"
+        style="flex-grow: 1; background: whitesmoke; height: 615px;width: 660px; margin-top: 5px; overflow-y: scroll;">
+        <div name="selectedtextview" *ngFor="let txt of textlist" class="selectedtextview">
+            {{txt.sno}} {{txt.text}}<br />
+        </div>
+
+        <div cdkDropList cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
+            <div class="example-box" *ngFor="let txt2 of everyele" cdkDrag>{{txt2}}</div>
+          </div>
+    </div>
