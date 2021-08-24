@@ -11,8 +11,10 @@
         <div name="selectedtextview" *ngFor="let txt of textlist" class="selectedtextview">
             {{txt.sno}} {{txt.text}}<br />
         </div>
-
+        <button class="showtext1" (click)="editText()">Edit</button>
         <div cdkDropList cdkDropListOrientation="horizontal" class="example-list" (cdkDropListDropped)="drop($event)">
-            <div class="example-box" *ngFor="let txt2 of everyele" cdkDrag>{{txt2}}</div>
-          </div>
+            <div (click)="editText(i)"  contenteditable="true" id="txt{{i}}" class="example-box"
+                *ngFor="let txt2 of everyele; let i=index" cdkDrag >{{txt2}}</div>
+        </div>
+        <button (click)="updateText()">Update</button>
     </div>
