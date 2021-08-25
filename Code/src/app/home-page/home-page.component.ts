@@ -63,6 +63,8 @@ export class HomePageComponent {
     document.getElementById("txt" + index).addEventListener("input", function () {
       console.log("input event fired");
     }, false);
+
+
   }
   updateText() {
     this.updatelist = [];
@@ -70,12 +72,13 @@ export class HomePageComponent {
     let value = "";
     for (let i = 0; i <= this.everyele.length; i++) {
       let divVal=$('#txt' + i).html();
-      if ( divVal!= "") {
+      console.log(divVal)
+      if ( divVal!= "" && !String(divVal).includes("&nbsp;")) {
         if (value == "") {
           value = divVal;
         }
         else {
-          value = value + " " + divVal;
+          value = value + " " + $('#txt' + i).html();
         }
       }
     }
