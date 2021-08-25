@@ -15,13 +15,13 @@ export class HomePageComponent {
   updatelist: any[];
   elementlist: any[] = [];
   name = 'Angular ' + VERSION.major;
-  pdfSource = "https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf";
+  pdfSource = "https://firebasestorage.googleapis.com/v0/b/dsiapp-103c4.appspot.com/o/Books%2Fdiversity.pdf?alt=media&token=4574a454-dc34-4888-93b2-6abf15c5fe9f";
   textlist1: any[] = [];
   list12: any[] = [];
   htmlToAdd: any;
   droppedItems: any[] = [];
   updatelist1: any[] = [];
-
+  page:number=1;
 
   constructor() {
 
@@ -55,9 +55,6 @@ export class HomePageComponent {
     }
   }
 
-
-
-
   editText(index: any) {
     console.log(index);
     document.getElementById("txt" + index).addEventListener("input", function () {
@@ -70,9 +67,8 @@ export class HomePageComponent {
     this.updatelist = [];
     this.updatelist1 = [];
     let value = "";
-    for (let i = 0; i <= this.everyele.length; i++) {
+    for (let i = 0; i < this.everyele.length; i++) {
       let divVal=$('#txt' + i).html();
-      console.log(divVal)
       if ( divVal!= "" && !String(divVal).includes("&nbsp;")) {
         if (value == "") {
           value = divVal;
@@ -83,6 +79,7 @@ export class HomePageComponent {
       }
     }
     this.everyele = value.split(" ");
+    console.log(this.everyele)
   }
 
 
