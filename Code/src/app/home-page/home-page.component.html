@@ -14,7 +14,7 @@
 
     <div class="row" style="display: flex">
 
-        <div class="col-md-6" style=" height: 700px; overflow-y:scroll ;">
+        <div class="col-md-6" style=" height: 660px; overflow-y:scroll ;">
             <div>
                 <label for="page"> Select page number:</label>
                 <input type="text" [(ngModel)]="page" id="page">
@@ -26,20 +26,31 @@
             <button style="width: 50px; border-radius: 3px;" (click)=" selectedText()">&#8649;</button>
         </div>
 
-        <div class="col-md-5" >
-
-            <div name="selectedtextview" *ngFor="let txt of textlist" >
+        <div class="col-md-5" style=" height: 680px; overflow-y:scroll ;" >
+            
+            <select [(ngModel)]="option">
+                
+                <option value="35rem" selected>6 x 2</option>
+              </select>
+              <div name="selectedtextview" *ngFor="let txt of textlist" >
                 {{txt.sno}} {{txt.text}}<br />
             </div>
-            <p style="margin-top: 10px;background-color: whitesmoke;">For edit text please right click on the boxes:</p>
-            <div cdkDropList cdkDropListOrientation="horizontal" class="example-list" oncontextmenu="return false;"
-                (cdkDropListDropped)="drop($event)">
-                <div (click)="editText(i)" contenteditable="true" id="txt{{i}}" class="example-box"
-                    *ngFor="let txt2 of everyele; let i=index" cdkDrag>{{txt2}}</div>
-            </div>
+            <p style="background-color: lightgray;"> For edit text please Right Click on the boxes:</p>  
             <button (click)="updateText()"
-                style="margin-left: 200px; margin-top: 5px; border-radius: 5px;">Update</button>
-
+                style="margin-left: 200px; margin-top: 5px; border-radius: 5px; ">Update</button>
+             <div #contenedor class="categories" [style.width]="option" oncontextmenu="return false;" cdkDropListGroup> 
+                <ng-container *ngFor="let item of everyele;let i=index"  style="display: flex;">
+                    <div class="categories-item" cdkDropList (click)="editText(i)" contenteditable="true" 
+                cdkDropListOrientation="horizontal"
+                [cdkDropListData]="{item:item,index:i}" (cdkDropListDropped)="drop($event)" >
+                        <div class="inner"  cdkDrag>
+                    <div class="example-custom-placeholder"  *cdkDragPlaceholder></div>
+                  <div id="txt{{i}}">{{item}}</div>
+                    </div>
+                    </div>
+                </ng-container>
+                </div>
+         
         </div>
 
     </div>

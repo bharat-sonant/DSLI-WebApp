@@ -1,3 +1,4 @@
+import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, VERSION } from '@angular/core';
 
@@ -15,21 +16,24 @@ export class HomePageComponent {
   updatelist: any[];
   elementlist: any[] = [];
   name = 'Angular ' + VERSION.major;
-  pdfSource = "https://firebasestorage.googleapis.com/v0/b/dsiapp-103c4.appspot.com/o/Books%2Fdiversity.pdf?alt=media&token=4574a454-dc34-4888-93b2-6abf15c5fe9f";
+  pdfSource = "../assets/chapter1.pdf";
   textlist1: any[] = [];
   list12: any[] = [];
   htmlToAdd: any;
   droppedItems: any[] = [];
   updatelist1: any[] = [];
-  page:number=1;
+  page: number = 1;
+  arrayList = [];
+  abc: any;
 
   constructor() {
 
 
   }
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.everyele, event.previousIndex, event.currentIndex);
-    console.log(this.everyele)
+
+  drop(event: CdkDragDrop<any>) {
+    this.everyele[event.previousContainer.data.index] = event.container.data.item
+    this.everyele[event.container.data.index] = event.previousContainer.data.item
   }
 
   ngOnInit() {
@@ -46,8 +50,12 @@ export class HomePageComponent {
     if (selectedText != "") {
       this.splittxt = selectedText.split(".");
       this.textlist.push({ text: this.splittxt[0] }) as any;
-      this.everyele = this.textlist[0]["text"].split(" ");
-      console.log(this.everyele)
+      let arrayList = this.textlist[0]["text"].split(" ");
+      for (let i = 0; i < arrayList.length; i++) {
+        if (arrayList[i].trim() != "") {
+          this.everyele.push(arrayList[i].trim());
+        }
+      }
 
     }
     else {
@@ -66,20 +74,22 @@ export class HomePageComponent {
   updateText() {
     this.updatelist = [];
     this.updatelist1 = [];
+
+
     let value = "";
+    let arrayList = [];
     for (let i = 0; i < this.everyele.length; i++) {
-      let divVal=$('#txt' + i).html();
-      if ( divVal!= "" && !String(divVal).includes("&nbsp;")) {
-        if (value == "") {
-          value = divVal;
-        }
-        else {
-          value = value + " " + $('#txt' + i).html();
+
+      let divVal = $('#txt' + i).html();
+      if (divVal!= undefined) {
+        if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
+          arrayList.push(divVal);
         }
       }
     }
-    this.everyele = value.split(" ");
-    console.log(this.everyele)
+    this.everyele = arrayList;
+    console.log(this.everyele);
+
   }
 
 
