@@ -26,31 +26,28 @@
             <button style="width: 50px; border-radius: 3px;" (click)=" selectedText()">&#8649;</button>
         </div>
 
-        <div class="col-md-5" style=" height: 680px; overflow-y:scroll ;" >
-            
-            <select [(ngModel)]="option">
-                
-                <option value="35rem" selected>6 x 2</option>
-              </select>
-              <div name="selectedtextview" *ngFor="let txt of textlist" >
+        <div class="col-md-5" style=" height: 680px; overflow-y:scroll ;">
+
+           
+            <div name="selectedtextview" *ngFor="let txt of textlist">
                 {{txt.sno}} {{txt.text}}<br />
             </div>
-            <p style="background-color: lightgray;"> For edit text please Right Click on the boxes:</p>  
+            <p style="background-color: lightgray;"> For edit text please Right Click on the boxes:</p>
             <button (click)="updateText()"
                 style="margin-left: 200px; margin-top: 5px; border-radius: 5px; ">Update</button>
-             <div #contenedor class="categories" [style.width]="option" oncontextmenu="return false;" cdkDropListGroup> 
-                <ng-container *ngFor="let item of everyele;let i=index"  style="display: flex;">
-                    <div class="categories-item" cdkDropList (click)="editText(i)" contenteditable="true" 
-                cdkDropListOrientation="horizontal"
-                [cdkDropListData]="{item:item,index:i}" (cdkDropListDropped)="drop($event)" >
-                        <div class="inner"  cdkDrag>
-                    <div class="example-custom-placeholder"  *cdkDragPlaceholder></div>
-                  <div id="txt{{i}}">{{item}}</div>
-                    </div>
+            <div #contenedor class="categories" style="width:35rem" oncontextmenu="return false;" cdkDropListGroup>
+                <ng-container *ngFor="let item of everyele;let i=index" style="display: flex;">
+                    <div class="categories-item" cdkDropList (click)="editText(i)" contenteditable="true"
+                        cdkDropListOrientation="horizontal" [cdkDropListData]="{item:item,index:i}"
+                        (cdkDropListDropped)="drop($event)">
+                        <div class="inner" cdkDrag>
+                            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                            <div id="txt{{i}}">{{item}}</div>
+                        </div>
                     </div>
                 </ng-container>
-                </div>
-         
+            </div>
+
         </div>
 
     </div>
