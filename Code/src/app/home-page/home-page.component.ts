@@ -26,6 +26,7 @@ export class HomePageComponent {
   abc: any;
   arrayList1: any[];
   isChecked: boolean;
+  
   constructor() {
 
 
@@ -40,7 +41,7 @@ export class HomePageComponent {
 
   ngOnInit() {
 
-
+    const hideThisDiv=true;
     let windowHeight = $(window).height();
     let height = (windowHeight * 100) / 100;
     let height1 = (windowHeight * 100) / 100;
@@ -49,6 +50,7 @@ export class HomePageComponent {
 
   }
   selectedText() {
+
     this.textlist = []
     // this.everyele = []
     let selection = document.getSelection();
@@ -60,15 +62,8 @@ export class HomePageComponent {
       this.textlist.push({ text: this.splittxt[0] }) as any;
       $('#txtSentance').val(this.splittxt[0]);
       let arrayList = this.textlist[0]["text"].split(" ");
-      //   for (let i = 0; i < arrayList.length; i++) {
-      //     if (arrayList[i].trim() != "") {
-      //       this.everyele.push(arrayList[i].trim());
-      //     }
-      //   }
-
-      // }
-      // else {
-      //   window.alert("Please select text");
+      $('#divRight').show();
+      
     }
   }
 
@@ -77,16 +72,11 @@ export class HomePageComponent {
     this.arrayList1 = []
     let arrayList = [];
     let divval = $('#txtSentance').val();
-    console.log(divval)
     arrayList = divval.toString().split(" ");
     for (let i = 0; i < arrayList.length; i++) {
       if (arrayList[i].trim() != "") {
         this.everyele.push(arrayList[i].trim());
       }
-      // if (this.arrayList[i].trim() != "") {
-      //   this.everyele.push(this.arrayList[i].trim());
-      // }
-
     }
 
 

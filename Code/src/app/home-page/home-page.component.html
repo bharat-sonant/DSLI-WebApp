@@ -26,15 +26,15 @@
                 <button class="btn btn-success" style="width: 50px;" (click)=" selectedText()">&#8649;</button>
             </div>
             <!-- right div -->
-            <div class="col-md-5" style="  overflow-x: auto;" id="right-div">
+            <div class="col-md-5" style="  overflow-x: auto; display: none;" id="divRight">
                 <div style="background-color: black; color: white; padding: 5px;">
                     PDF SELECTED DATA
                 </div>
-                <div name="selectedtextview"  *ngFor="let txt of textlist"style="background-color: cornsilk;">
+                <div name="selectedtextview"  *ngFor="let txt of textlist"style=" background-color: cornsilk;">
                     {{txt.sno}} {{txt.text}}<br />
                 </div>
                 <br>
-                 <textarea   id="txtSentance" style="background-color:white; width:100%;height:100px">
+                 <textarea   id="txtSentance" style=" background-color:white; width:100%;height:100px">
                    
                  </textarea>
                  <br/>
