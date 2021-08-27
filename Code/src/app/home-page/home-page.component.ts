@@ -1,4 +1,3 @@
-import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, VERSION } from '@angular/core';
 
@@ -25,9 +24,8 @@ export class HomePageComponent {
   page: number = 1;
   arrayList = [];
   abc: any;
-
-
-
+  arrayList1: any[];
+  isChecked: boolean;
   constructor() {
 
 
@@ -44,15 +42,15 @@ export class HomePageComponent {
 
 
     let windowHeight = $(window).height();
-    let height = (windowHeight * 90) / 100;
-    let height1 = (windowHeight * 95) / 100;
+    let height = (windowHeight * 100) / 100;
+    let height1 = (windowHeight * 100) / 100;
     $("#left-div").css("height", height);
     $("#right-div").css("height", height1);
 
   }
   selectedText() {
     this.textlist = []
-    this.everyele = []
+    // this.everyele = []
     let selection = document.getSelection();
     let selectedText = selection.toString();
 
@@ -60,18 +58,41 @@ export class HomePageComponent {
     if (selectedText != "") {
       this.splittxt = selectedText.split(".");
       this.textlist.push({ text: this.splittxt[0] }) as any;
+      $('#txtSentance').val(this.splittxt[0]);
       let arrayList = this.textlist[0]["text"].split(" ");
-      for (let i = 0; i < arrayList.length; i++) {
-        if (arrayList[i].trim() != "") {
-          this.everyele.push(arrayList[i].trim());
-        }
-      }
+      //   for (let i = 0; i < arrayList.length; i++) {
+      //     if (arrayList[i].trim() != "") {
+      //       this.everyele.push(arrayList[i].trim());
+      //     }
+      //   }
 
-    }
-    else {
-      window.alert("Please select text");
+      // }
+      // else {
+      //   window.alert("Please select text");
     }
   }
+
+  showTextBlocks() {
+    this.everyele = []
+    this.arrayList1 = []
+    let arrayList = [];
+    let divval = $('#txtSentance').val();
+    console.log(divval)
+    arrayList = divval.toString().split(" ");
+    for (let i = 0; i < arrayList.length; i++) {
+      if (arrayList[i].trim() != "") {
+        this.everyele.push(arrayList[i].trim());
+      }
+      // if (this.arrayList[i].trim() != "") {
+      //   this.everyele.push(this.arrayList[i].trim());
+      // }
+
+    }
+
+
+
+  }
+
 
   editText(index: any) {
     console.log(index);
@@ -84,23 +105,23 @@ export class HomePageComponent {
   updateText() {
     this.updatelist = [];
     this.updatelist1 = [];
-
-
-    let value = "";
+    let value = 0;
     let arrayList = [];
     for (let i = 0; i < this.everyele.length; i++) {
-
-      let divVal = $('#txt' + i).html();
-      if (divVal != undefined) {
-        if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
-          arrayList.push(divVal);
+      let check = <HTMLInputElement>document.getElementById("chk"+i);
+      if (check.checked == false) {
+        let divVal = $('#txt' + i).html();
+        if (divVal != undefined) {
+          if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
+            arrayList.push(divVal);
+          }
         }
       }
     }
     this.everyele = arrayList;
     console.log(this.everyele);
 
-  }
 
+  }
 
 }
