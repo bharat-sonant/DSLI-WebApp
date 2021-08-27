@@ -26,6 +26,8 @@ export class HomePageComponent {
   arrayList = [];
   abc: any;
 
+
+
   constructor() {
 
 
@@ -36,8 +38,16 @@ export class HomePageComponent {
     this.everyele[event.container.data.index] = event.previousContainer.data.item
   }
 
+
+
   ngOnInit() {
 
+
+    let windowHeight = $(window).height();
+    let height = (windowHeight * 90) / 100;
+    let height1 = (windowHeight * 95) / 100;
+    $("#left-div").css("height", height);
+    $("#right-div").css("height", height1);
 
   }
   selectedText() {
@@ -81,7 +91,7 @@ export class HomePageComponent {
     for (let i = 0; i < this.everyele.length; i++) {
 
       let divVal = $('#txt' + i).html();
-      if (divVal!= undefined) {
+      if (divVal != undefined) {
         if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
           arrayList.push(divVal);
         }

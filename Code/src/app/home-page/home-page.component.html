@@ -11,31 +11,34 @@
 </head>
 
 <body>
-
+   <div>
     <div class="row" style="display: flex">
-
-        <div class="col-md-6" style=" height: 660px; overflow-y:scroll ;">
-            <div>
-                <label for="page"> Select page number:</label>
+        <!-- left div -->
+        <div class="col-md-6" id="left-div" >
+            <div style="background-color: black; color: white; padding: 5px;">
+                <label for="page"> Select page number: </label>
                 <input type="text" [(ngModel)]="page" id="page">
             </div>
             <pdf-viewer [page]="page" [src]="pdfSource" value="Get Selection" [original-size]="false"></pdf-viewer>
         </div>
-
+        <!-- mid div -->
         <div class="col-md-1" style="margin-top: 350px;">
-            <button style="width: 50px; border-radius: 3px;" (click)=" selectedText()">&#8649;</button>
+            <button class="btn btn-success" style="width: 50px;" (click)=" selectedText()">&#8649;</button>
         </div>
-
-        <div class="col-md-5" style=" height: 680px; overflow-y:scroll ;">
-
-           
-            <div name="selectedtextview" *ngFor="let txt of textlist">
-                {{txt.sno}} {{txt.text}}<br />
+        <!-- right div -->
+        <div class="col-md-5" style="  overflow-x: auto;" id="right-div">
+            <div style="background-color: black; color: white; padding: 5px;">
+                PDF SELECTED DATA
             </div>
-            <p style="background-color: lightgray;"> For edit text please Right Click on the boxes:</p>
-            <button (click)="updateText()"
-                style="margin-left: 200px; margin-top: 5px; border-radius: 5px; ">Update</button>
-            <div #contenedor class="categories" style="width:35rem" oncontextmenu="return false;" cdkDropListGroup>
+
+            <p style="background-color: lightgray; width: 60%; border-radius: 3px;margin-top: 10px;"> For edit text
+                please Right Click on
+                the boxes:</p>
+            
+
+
+            <div #contenedor class="categories" style="width:35rem ; overflow-y: scroll;" oncontextmenu="return false;"
+                cdkDropListGroup>
                 <ng-container *ngFor="let item of everyele;let i=index" style="display: flex;">
                     <div class="categories-item" cdkDropList (click)="editText(i)" contenteditable="true"
                         cdkDropListOrientation="horizontal" [cdkDropListData]="{item:item,index:i}"
@@ -47,11 +50,15 @@
                     </div>
                 </ng-container>
             </div>
+            <button (click)="updateText()" class="btn btn-info">Update</button>
+            <div name="selectedtextview" *ngFor="let txt of textlist" style="background-color: cornsilk;">
+                {{txt.sno}} {{txt.text}}<br />
+            </div>
 
         </div>
 
     </div>
-
+</div>
 </body>
 
 </html>
