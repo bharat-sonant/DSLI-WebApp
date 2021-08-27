@@ -39,9 +39,7 @@
                    
                  </textarea>
                  <br/>
-                <p style="background-color: lightgray; border-radius: 3px;margin-top: 10px;"> For edit text
-                    please Right Click on
-                    the boxes:</p>
+                
 
                     <button  class="btn btn-info" (click)="showTextBlocks()">Show Into Blocks</button>
                     
@@ -49,9 +47,9 @@
                  <br/>
                   
                 <div #contenedor class="categories" style="width:100% ; overflow-y: scroll;"
-                    oncontextmenu="return false;" cdkDropListGroup>
+                 cdkDropListGroup>
                     <ng-container *ngFor="let item of everyele;let i=index" style="display: flex;">
-                        <div class="categories-item" cdkDropList (click)="editText(i)" contenteditable="true"
+                        <div class="categories-item" cdkDropList  
                             cdkDropListOrientation="horizontal" [cdkDropListData]="{item:item,index:i}"
                             (cdkDropListDropped)="drop($event)">
                             <div class="inner" cdkDrag>
@@ -65,7 +63,10 @@
                 </div>
                 <br/>
                 <br/>
-                <button (click)="updateText()" class="btn btn-info">Delete Selected</button>
+                <button (click)="updateText()" class="btn btn-info" style="margin-right: 10px;">Delete Selected</button>
+                <button   class="btn btn-info" style="margin-right: 10px;">Common</button>
+                <button  class="btn btn-info" style="margin-right: 10px;">Uncommon</button>
+                <button  class="btn btn-info" style="margin-right: 10px;">Finger</button>
             </div>
             </div>
 

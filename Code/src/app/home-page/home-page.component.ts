@@ -84,14 +84,7 @@ export class HomePageComponent {
   }
 
 
-  editText(index: any) {
-    console.log(index);
-    document.getElementById("txt" + index).addEventListener("input", function () {
-      console.log("input event fired");
-    }, false);
-
-
-  }
+  
   updateText() {
     this.updatelist = [];
     this.updatelist1 = [];
@@ -110,8 +103,13 @@ export class HomePageComponent {
     }
     this.everyele = arrayList;
     console.log(this.everyele);
-
-
   }
+  // commonText()
+  // {
+  //   for(let i=0;i< this.everyele.length;i++)
+  //   {
+      
+  //   }
+  // }
 
 }
