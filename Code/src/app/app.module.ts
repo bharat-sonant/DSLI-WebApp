@@ -15,6 +15,7 @@ import { SavePdfDataComponent } from './save-pdf-data/save-pdf-data.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import {MaterialModule} from './material-module';
 import {MatNativeDateModule} from '@angular/material/core';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -40,6 +41,8 @@ import {MatNativeDateModule} from '@angular/material/core';
     PdfViewerModule,
     MaterialModule,
     MatNativeDateModule,
+
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
