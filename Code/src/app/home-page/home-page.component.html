@@ -13,33 +13,163 @@
 <body>
 
     <div class="row" style="display: flex">
+        <div class="col-12 pr-0 pl-0">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                  <a class="navbar-brand" href="#"><img src="../../assets/images/logo.png" class="img-fluid logo" alt="Sonant Logo"></a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav ml-auto">
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                          More Options
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                          <li><a class="dropdown-item" href="#">Options 1</a></li>
+                          <li><a class="dropdown-item" href="#">Options 2</a></li>
+                          <li><a class="dropdown-item" href="#">Options 3</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+        </div>
+    </div>
+    <!-- <section class="home">
+        <div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="header-text">
+            Documents that get <span>Coppied</span>
+        </h2>
+        <p class="mt-30">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi cum quae quas aliquam repellendus molestiae saepe,
+             nam et iure, ipsa laboriosam tempora harum asperiores ipsum quo accusamus ut rem quam.
+            </p>
+             
+        <a href="#main-page" type="button" class="btn btn-success mt-30">Let's Start with Click</a>
+        </div>
+    </div>
+</div>
+</section> -->
 
-        <div class="col-md-6" style=" height: 700px; overflow-y:scroll ;">
+<section class="main-page" id="main-page">
+    <div class="row" style="display: flex">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12 pr-0">
+                    <div class="con-scroll">
             <pdf-viewer [src]="pdfSource" value="Get Selection" [original-size]="false"></pdf-viewer>
         </div>
+                </div>
 
-        <div class="col-md-1" style="margin-top: 350px;">
-            <button style="width: 50px; border-radius: 3px;" (click)=" selectedText()">&#8649;</button>
+            <div class="coppier-btn">
+                <div class="btn-bg">
+                    <h3>Coppy Text from the page and Get Result on Next Screen</h3>
+                <button type="button" class="btn btn-success" (click)=" selectedText()" style="margin-left:15px;">Convert ⇉</button>
+            </div>
+            </div>
+        </div>
         </div>
 
-        <div class="col-md-5" >
-
-            <div name="selectedtextview" *ngFor="let txt of textlist" >
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+            <div class="coppied-text" name="selectedtextview" *ngFor="let txt of textlist" >
+                
                 {{txt.sno}} {{txt.text}}<br />
             </div>
-            <p style="margin-top: 10px;background-color: whitesmoke;">For edit text please right click on the boxes:</p>
+            <p class="text-bg">For edit text please right click on the boxes:</p>
+        </div>
+        <div class="col-md-12">
             <div cdkDropList cdkDropListOrientation="horizontal" class="example-list" oncontextmenu="return false;"
                 (cdkDropListDropped)="drop($event)">
                 <div (click)="editText(i)" contenteditable="true" id="txt{{i}}" class="example-box"
                     *ngFor="let txt2 of everyele; let i=index" cdkDrag>{{txt2}}</div>
+        </div> </div>
+
+        <!-- <div class="col-md-12">
+            <div class="pdf-box">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="box-design">
+                        dscdscs d
+                    </div>
+                    </div>
+                    <div class="col-md-2">
+                            <div class="box-design">
+                            dscdscs d
+                        </div>
+                        </div>
+                        <div class="col-md-2">
+                                <div class="box-design">
+                                dscdscs d
+                            </div>
+                            </div>
+                            <div class="col-md-2">
+                                    <div class="box-design">
+                                    dscdscs d
+                                </div>
+                                </div>
+                                <div class="col-md-2">
+                                        <div class="box-design">
+                                        dscdscs d
+                                    </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                            <div class="box-design">
+                                            dscdscs d
+                                        </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                                <div class="box-design">
+                                                dscdscs d
+                                            </div>
+                                            </div>
+                </div>
             </div>
-            <button (click)="updateText()"
-                style="margin-left: 200px; margin-top: 5px; border-radius: 5px;">Update</button>
+        </div> -->
+        <div class="col-md-12 text-center">
+            <button (click)="updateText()" class="btn btn-success" type="button"
+                style=" margin-top: 10px;">Update</button>
+            </div>
 
         </div>
-
     </div>
 
+    </div>
+</section>
+
+<section class="footer">
+    <div class="row">
+            <div class="col-12 pr-0 pl-0">
+                    <nav class="navbar navbar-expand-lg  navbar-light bg-light">
+                        <div class="container-fluid">
+                          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                            <ul class="navbar-nav w-100 justify-content-center">
+                              <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">@ copyright by Sonant 2021</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </nav>
+                </div>
+    </div>
+</section>
+
 </body>
+
 
 </html>
