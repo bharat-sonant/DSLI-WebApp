@@ -221,11 +221,6 @@ label{
   
 /***********************Navbar Start**********************/
 
-.home{background:url(../../assets/images/header-01.jpg) no-repeat;
-   width:100%;
-     background-size:cover;
-      min-height:100vh; 
- }
 .mt-30{
   margin-top: 30px!important;
 }
