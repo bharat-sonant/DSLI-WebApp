@@ -1,13 +1,12 @@
 export const environment = {
   production: true,
   firebase: {
-    apiKey: "AIzaSyCYB-leB4kEwkW5yM3LSmsCWT5vmpffxkc",
-  authDomain: "anguler-demo-3f7e8.firebaseapp.com",
-  databaseURL: "https://anguler-demo-3f7e8-default-rtdb.firebaseio.com",
-  projectId: "anguler-demo-3f7e8",
-  storageBucket: "anguler-demo-3f7e8.appspot.com",
-  messagingSenderId: "240441066397",
-  appId: "1:240441066397:web:3c96172d083c7169d5a574",
-  measurementId: "G-DBC52TC824"
+    apiKey: "AIzaSyCk24Av5B9UKkX9WnIMSc1aIhj2HogEXj8",
+  authDomain: "dsiapp-103c4.appspot.com",
+  databaseURL: "https://dsiapp-103c4.firebaseio.com/",
+  projectId: "dsiapp-103c4",
+  storageBucket: "gs://dsiapp-103c4.appspot.com",
+  // messagingSenderId: "240441066397",
+  appId: "1:427232668165:android:d3bccd511641c5ac3c0a6c",
   }
 };
