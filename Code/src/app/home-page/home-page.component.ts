@@ -71,12 +71,21 @@ export class HomePageComponent {
       $('#divRight').show();
       
     }
+
+    this.commontextlist=[];
+    this.fingerlist=[];
+    this.uncommontextlist=[];
+    this.everyele=[];
   }
 
   showTextBlocks() {
-    this.everyele = []
-    this.arrayList1 = []
+    this.everyele = [];
+    this.arrayList1 = [];
     let arrayList = [];
+    
+   this.fingerlist=[];
+   this.commontextlist=[];
+   this.uncommontextlist=[];
     let divval = $('#txtSentance').val();
     arrayList = divval.toString().split(" ");
     for (let i = 0; i < arrayList.length; i++) {
@@ -84,7 +93,17 @@ export class HomePageComponent {
         this.everyele.push(arrayList[i].trim());
       }
     }
+   if(this.everyele.length>0)
+   {
+     for(let i=0;i<this.everyele.length;i++)
+     {
+      let check= <HTMLInputElement>document.getElementById("chk"+i);
+      check.disabled=false;
+     }
+   }
 
+  
+   
 
 
   }
@@ -211,6 +230,11 @@ export class HomePageComponent {
      
     }
     }
+  }
+  reset()
+  {
+    
+    this.showTextBlocks();
   }
 
 }
