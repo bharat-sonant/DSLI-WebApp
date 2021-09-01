@@ -79,7 +79,7 @@
 
             </div>
             <!-- right div -->
-            <div class="col-md-6 pl-0" style="  overflow-x: auto;">
+            <div class="col-md-6 pl-0" style="  overflow-x: auto; overflow-y: auto;">
                 <div class="text-bg">
                     PDF SELECTED DATA
                 </div>
@@ -109,13 +109,30 @@
                             <div class="inner" cdkDrag>
                                 
                                 <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-                                <input type="checkbox" style="float: right;" id="chk{{i}}" >
+                                <input type="checkbox" style="float: right;" id="chk{{i}}"  >
                                 <div id="txt{{i}}">{{item}}</div>
                             </div>
                         </div>
                     </ng-container>
                 </div>
                 <button (click)="updateText()" class="btn btn-danger" style="margin-top: 15px;">Delete Selected</button>
+                <button (click)="commonText()" class="btn btn-info" style="margin-top: 15px; margin-left: 10px;">Common</button>
+                <button (click)="uncommonText()" class="btn btn-info" style="margin-top: 15px; margin-left: 10px;">Uncommon</button>
+                <button (click)="finger()" class="btn btn-info" style="margin-top: 15px; margin-left: 10px;">Finger</button>
+                <br/>
+                
+                <div style="background-color: lightgray; margin-top: 5px;">
+                    <label ><b>Common Text</b></label><br/> 
+                    {{commontextlist}}
+                </div>
+                <div style="background-color: lightgray; margin-top: 10px;" >
+                    <label ><b>Uncommon Text</b></label><br/>
+                    {{uncommontextlist}}
+                </div>
+                <div style="background-color: lightgray; margin-top: 10px;">
+                    <label ><b>Finger</b></label><br/>
+                    {{fingerlist}}
+                </div>
             </div>
             </div>
 
