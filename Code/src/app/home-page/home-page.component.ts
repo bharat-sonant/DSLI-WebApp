@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, VERSION } from '@angular/core';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 @Component({
   selector: 'app-home-page',
@@ -26,14 +27,17 @@ export class HomePageComponent {
   abc: any;
   arrayList1: any[];
   isChecked: boolean;
-  commontextlist:any[];
-  uncommontextlist:any[];
-   disabled:boolean;
-  checked:boolean;
-  fingerlist:any[];
-  
-  
-  constructor() {
+  commontextlist: any[];
+  uncommontextlist: any[];
+  savedtextlist: any[]
+
+  checked: boolean;
+  fingerlist: any[];
+  datalist: any[];
+  savedtextlist1: any[];
+
+
+  constructor(public db: AngularFireDatabase) {
 
 
   }
@@ -46,15 +50,32 @@ export class HomePageComponent {
 
 
   ngOnInit() {
-
-    const hideThisDiv=true;
+    this.datalist = []
+    /*
+        let dbpath = "MoCap";
+        let instance = this.db.list(dbpath).valueChanges().subscribe(data => {
+          instance.unsubscribe();
+          for (let i = 0; i <= data.length; i++) {
+            if (data[i] != null) {
+              let aa = data[i];
+              
+             // let bb=Object.values(aa);
+             // console.log(Object.values(bb[0]));
+              this.datalist.push({ word: bb[0] });
+            }
+          }
+          console.log(this.datalist);
+    
+        })
+    */
+    const hideThisDiv = true;
     let windowHeight = $(window).height();
     let height = (windowHeight * 100) / 100;
     let height1 = (windowHeight * 80) / 100;
     $("#left-div").css("height", height);
     $("#right-div").css("height", height1);
-
   }
+
   selectedText() {
 
     this.textlist = []
@@ -69,50 +90,62 @@ export class HomePageComponent {
       $('#txtSentance').val(this.splittxt[0]);
       let arrayList = this.textlist[0]["text"].split(" ");
       $('#divRight').show();
-      
+
     }
 
-    this.commontextlist=[];
-    this.fingerlist=[];
-    this.uncommontextlist=[];
-    this.everyele=[];
+    this.commontextlist = [];
+    this.fingerlist = [];
+    this.uncommontextlist = [];
+    this.everyele = [];
   }
 
   showTextBlocks() {
     this.everyele = [];
     this.arrayList1 = [];
     let arrayList = [];
-    
-   this.fingerlist=[];
-   this.commontextlist=[];
-   this.uncommontextlist=[];
+
+    this.fingerlist = [];
+    this.commontextlist = [];
+    this.uncommontextlist = [];
     let divval = $('#txtSentance').val();
     arrayList = divval.toString().split(" ");
     for (let i = 0; i < arrayList.length; i++) {
       if (arrayList[i].trim() != "") {
         this.everyele.push(arrayList[i].trim());
       }
-    }
-   if(this.everyele.length>0)
-   {
-     for(let i=0;i<this.everyele.length;i++)
-     {
-      let check= <HTMLInputElement>document.getElementById("chk"+i);
-      check.disabled=false;
-     }
-   }
 
-  
-   
+
+    }
+
+    if (this.everyele.length > 0) {
+      for (let i = 0; i < this.everyele.length; i++) {
+        let check = <HTMLInputElement>document.getElementById("chk" + i);
+        if (check != null) {
+          check.disabled = false;
+        }
+      }
+    }
+
+
+    for (let i = 0; i <= this.everyele.length; i++) {
+      for (let j = 0; j <= this.datalist.length; j++) {
+
+        if (this.everyele[i] == this.datalist[j]["word"]) {
+          console.log(this.datalist[j]["word"])
+
+        }
+      }
+    }
+
+
+
 
 
   }
 
 
   editText(index: any) {
-    console.log(index);
     document.getElementById("txt" + index).addEventListener("input", function () {
-      console.log("input event fired");
     }, false);
 
 
@@ -123,7 +156,7 @@ export class HomePageComponent {
     let value = 0;
     let arrayList = [];
     for (let i = 0; i < this.everyele.length; i++) {
-      let check = <HTMLInputElement>document.getElementById("chk"+i);
+      let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == false) {
         let divVal = $('#txt' + i).html();
         if (divVal != undefined) {
@@ -134,107 +167,98 @@ export class HomePageComponent {
       }
     }
     this.everyele = arrayList;
-    console.log(this.everyele);
 
 
   }
-  commonText()
-  { this.commontextlist=[]
-    for(let i=0;i< this.everyele.length;i++)
-    {
-      let check= <HTMLInputElement>document.getElementById("chk"+i);
-      if(check.checked==true)
-      {
-        let divVal=$('#txt' + i).html();
+  commonText() {
+    this.commontextlist = []
+    for (let i = 0; i < this.everyele.length; i++) {
+      let check = <HTMLInputElement>document.getElementById("chk" + i);
+      if (check.checked == true) {
+        let divVal = $('#txt' + i).html();
         this.commontextlist.push(divVal);
-        
+
 
       }
-      
-     
+
+
     }
-    console.log(this.commontextlist);
-    
-    for(let i=0;i< this.everyele.length;i++)
-    {
-      for(let j=0;j<=this.commontextlist.length;j++)
-      {
-      if(this.everyele[i] == this.commontextlist[j])
-      {
-        let element =<HTMLInputElement> document.getElementById("chk"+i);
-        element.disabled=true;
-        element.checked=false;
+
+    for (let i = 0; i < this.everyele.length; i++) {
+      for (let j = 0; j <= this.commontextlist.length; j++) {
+        if (this.everyele[i] == this.commontextlist[j]) {
+          let element = <HTMLInputElement>document.getElementById("chk" + i);
+          element.disabled = true;
+          element.checked = false;
+        }
+
       }
-     
-    }
     }
   }
 
-  uncommonText()
-  { this.uncommontextlist=[]
-    for(let i=0;i< this.everyele.length;i++)
-    {
-      let check= <HTMLInputElement>document.getElementById("chk"+i);
-      if(check.checked==true)
-      {
-        let divVal=$('#txt' + i).html();
+  uncommonText() {
+    this.uncommontextlist = []
+    for (let i = 0; i < this.everyele.length; i++) {
+      let check = <HTMLInputElement>document.getElementById("chk" + i);
+      if (check.checked == true) {
+        let divVal = $('#txt' + i).html();
         this.uncommontextlist.push(divVal);
-        
+
 
       }
-      
-    }
-    console.log(this.uncommontextlist);
 
-    for(let i=0;i< this.everyele.length;i++)
-    {
-      for(let j=0;j<=this.uncommontextlist.length;j++)
-      {
-      if(this.everyele[i] == this.uncommontextlist[j])
-      {
-        let element =<HTMLInputElement> document.getElementById("chk"+i);
-        element.disabled=true;
-        element.checked=false;
+    }
+
+    for (let i = 0; i < this.everyele.length; i++) {
+      for (let j = 0; j <= this.uncommontextlist.length; j++) {
+        if (this.everyele[i] == this.uncommontextlist[j]) {
+          let element = <HTMLInputElement>document.getElementById("chk" + i);
+          element.disabled = true;
+          element.checked = false;
+        }
+
       }
-     
     }
-    }
-           
+
   }
-  finger()
-  {
-    this.fingerlist=[]
-    for(let i=0;i< this.everyele.length;i++)
-    {
-      let check= <HTMLInputElement>document.getElementById("chk"+i);
-      if(check.checked==true)
-      {
-        let divVal=$('#txt' + i).html();
+  finger() {
+    this.fingerlist = []
+    for (let i = 0; i < this.everyele.length; i++) {
+      let check = <HTMLInputElement>document.getElementById("chk" + i);
+      if (check.checked == true) {
+        let divVal = $('#txt' + i).html();
         this.fingerlist.push(divVal);
-        
+
 
       }
-      
+
     }
-    console.log(this.fingerlist);
-    for(let i=0;i< this.everyele.length;i++)
-    {
-      for(let j=0;j<=this.fingerlist.length;j++)
-      {
-      if(this.everyele[i] == this.fingerlist[j])
-      {
-        let element =<HTMLInputElement> document.getElementById("chk"+i);
-        element.disabled=true;
-        element.checked=false;
+    for (let i = 0; i < this.everyele.length; i++) {
+      for (let j = 0; j <= this.fingerlist.length; j++) {
+        if (this.everyele[i] == this.fingerlist[j]) {
+          let element = <HTMLInputElement>document.getElementById("chk" + i);
+          element.disabled = true;
+          element.checked = false;
+        }
+
       }
-     
-    }
     }
   }
-  reset()
-  {
-    
+  reset() {
+
     this.showTextBlocks();
   }
 
+  savedData() {
+    this.savedtextlist = JSON.parse(localStorage.getItem("saveData"));
+    if (this.savedtextlist == null) {
+      this.savedtextlist = [];
+    }
+    for (let i = 0; i < this.textlist.length; i++) {
+      this.savedtextlist.push({ page: this.page, text: this.textlist[i] })
+    }
+
+
+    localStorage.setItem("saveData", JSON.stringify(this.savedtextlist));
+  }
 }
