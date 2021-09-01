@@ -26,6 +26,12 @@ export class HomePageComponent {
   abc: any;
   arrayList1: any[];
   isChecked: boolean;
+  commontextlist:any[];
+  uncommontextlist:any[];
+   disabled:boolean;
+  checked:boolean;
+  fingerlist:any[];
+  
   
   constructor() {
 
@@ -44,7 +50,7 @@ export class HomePageComponent {
     const hideThisDiv=true;
     let windowHeight = $(window).height();
     let height = (windowHeight * 100) / 100;
-    let height1 = (windowHeight * 100) / 100;
+    let height1 = (windowHeight * 80) / 100;
     $("#left-div").css("height", height);
     $("#right-div").css("height", height1);
 
@@ -112,6 +118,99 @@ export class HomePageComponent {
     console.log(this.everyele);
 
 
+  }
+  commonText()
+  { this.commontextlist=[]
+    for(let i=0;i< this.everyele.length;i++)
+    {
+      let check= <HTMLInputElement>document.getElementById("chk"+i);
+      if(check.checked==true)
+      {
+        let divVal=$('#txt' + i).html();
+        this.commontextlist.push(divVal);
+        
+
+      }
+      
+     
+    }
+    console.log(this.commontextlist);
+    
+    for(let i=0;i< this.everyele.length;i++)
+    {
+      for(let j=0;j<=this.commontextlist.length;j++)
+      {
+      if(this.everyele[i] == this.commontextlist[j])
+      {
+        let element =<HTMLInputElement> document.getElementById("chk"+i);
+        element.disabled=true;
+        element.checked=false;
+      }
+     
+    }
+    }
+  }
+
+  uncommonText()
+  { this.uncommontextlist=[]
+    for(let i=0;i< this.everyele.length;i++)
+    {
+      let check= <HTMLInputElement>document.getElementById("chk"+i);
+      if(check.checked==true)
+      {
+        let divVal=$('#txt' + i).html();
+        this.uncommontextlist.push(divVal);
+        
+
+      }
+      
+    }
+    console.log(this.uncommontextlist);
+
+    for(let i=0;i< this.everyele.length;i++)
+    {
+      for(let j=0;j<=this.uncommontextlist.length;j++)
+      {
+      if(this.everyele[i] == this.uncommontextlist[j])
+      {
+        let element =<HTMLInputElement> document.getElementById("chk"+i);
+        element.disabled=true;
+        element.checked=false;
+      }
+     
+    }
+    }
+           
+  }
+  finger()
+  {
+    this.fingerlist=[]
+    for(let i=0;i< this.everyele.length;i++)
+    {
+      let check= <HTMLInputElement>document.getElementById("chk"+i);
+      if(check.checked==true)
+      {
+        let divVal=$('#txt' + i).html();
+        this.fingerlist.push(divVal);
+        
+
+      }
+      
+    }
+    console.log(this.fingerlist);
+    for(let i=0;i< this.everyele.length;i++)
+    {
+      for(let j=0;j<=this.fingerlist.length;j++)
+      {
+      if(this.everyele[i] == this.fingerlist[j])
+      {
+        let element =<HTMLInputElement> document.getElementById("chk"+i);
+        element.disabled=true;
+        element.checked=false;
+      }
+     
+    }
+    }
   }
 
 }
