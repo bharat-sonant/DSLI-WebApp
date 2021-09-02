@@ -101,12 +101,12 @@
                
                   
                 <div #contenedor class="categories" style="width:100% ; overflow-y: scroll;"
-                    oncontextmenu="return false;" cdkDropListGroup>
+                     cdkDropListGroup>
                     <ng-container *ngFor="let item of everyele;let i=index" style="display: flex;">
-                        <div class="categories-item" cdkDropList (click)="editText(i)" contenteditable="true"
+                        <div class="categories-item" cdkDropList (click)="editText(i)" 
                             cdkDropListOrientation="horizontal" [cdkDropListData]="{item:item,index:i}"
                             (cdkDropListDropped)="drop($event)">
-                            <div class="inner" cdkDrag>
+                            <div class="inner" cdkDrag >
                                 
                                 <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
                                 <input type="checkbox" style="float: right;" id="chk{{i}}"  >
@@ -120,6 +120,8 @@
                 <button (click)="uncommonText()" class="btn btn-info" style="margin-top: 15px; margin-left: 10px;">Uncommon</button>
                 <button (click)="finger()" class="btn btn-info" style="margin-top: 15px; margin-left: 10px;">Finger</button>
                 <button (click)="showTextBlocks()" class="btn btn-info" style="margin-top: 15px; margin-left: 10px;">Reset </button>
+                <button (click)="savedData()" class="btn btn-info" style="margin-top: 15px; margin-left: 10px;">Save </button>
+
                 <br/>
                 
                 <div style="background-color: lightgray; margin-top: 5px;">
@@ -134,6 +136,12 @@
                     <label ><b>Finger</b></label><br/>
                     {{fingerlist}}
                 </div>
+                <label ><b>Saved Data</b></label><br/>
+                <div style="background-color: lightgray; margin-top: 10px;" *ngFor="let svt of savedtextlist">
+                   
+                    {{svt.page}}-{{svt.text.text}}
+                </div>
+                
             </div>
             </div>
 
