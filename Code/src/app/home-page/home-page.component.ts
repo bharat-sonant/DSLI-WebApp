@@ -24,7 +24,7 @@ export class HomePageComponent {
   updatelist1: any[] = [];
   page: number = 1;
   arrayList = [];
-  abc: any;
+
   arrayList1: any[];
   isChecked: boolean;
   commontextlist: any[];
@@ -35,11 +35,8 @@ export class HomePageComponent {
   fingerlist: any[];
   datalist: any[];
   savedtextlist1: any[];
-
-
+  filterList: any[];
   constructor(public db: AngularFireDatabase) {
-
-
   }
 
   drop(event: CdkDragDrop<any>) {
@@ -50,36 +47,39 @@ export class HomePageComponent {
 
 
   ngOnInit() {
-    this.datalist = []
-    /*
-        let dbpath = "MoCap";
-        let instance = this.db.list(dbpath).valueChanges().subscribe(data => {
-          instance.unsubscribe();
-          for (let i = 0; i <= data.length; i++) {
-            if (data[i] != null) {
-              let aa = data[i];
-              
-             // let bb=Object.values(aa);
-             // console.log(Object.values(bb[0]));
-              this.datalist.push({ word: bb[0] });
-            }
-          }
-          console.log(this.datalist);
-    
-        })
-    */
+    this.datalist = [];
+    this.filterList = [];
+    $('#filterdata').show();
     const hideThisDiv = true;
     let windowHeight = $(window).height();
     let height = (windowHeight * 100) / 100;
     let height1 = (windowHeight * 80) / 100;
     $("#left-div").css("height", height);
     $("#right-div").css("height", height1);
+    this.savedtextlist = JSON.parse(localStorage.getItem("saveData"));
+    if (this.savedtextlist == null) {
+      this.savedtextlist = [];
+    }
+    let pageDataList = this.savedtextlist.filter((item) => item.page == this.page);
+    if (pageDataList.length > 0) {
+      this.filterList = pageDataList;
+    }
+
+  }
+
+  getSavedData() {
+    if ($('#page').val() != "") {
+      this.page = Number($('#page').val());
+      this.filterList = [];
+      let pageDataList = this.savedtextlist.filter((item) => item.page == this.page);
+      if (pageDataList.length > 0) {
+        this.filterList = pageDataList;
+      }
+    }
   }
 
   selectedText() {
-
     this.textlist = []
-    // this.everyele = []
     let selection = document.getSelection();
     let selectedText = selection.toString();
 
@@ -131,7 +131,6 @@ export class HomePageComponent {
       for (let j = 0; j <= this.datalist.length; j++) {
 
         if (this.everyele[i] == this.datalist[j]["word"]) {
-          console.log(this.datalist[j]["word"])
 
         }
       }
