@@ -24,6 +24,7 @@ export class HomePageComponent {
   updatelist1: any[] = [];
   page: number = 1;
   arrayList = [];
+  stickToPage:number=1;
 
   arrayList1: any[];
   isChecked: boolean;
