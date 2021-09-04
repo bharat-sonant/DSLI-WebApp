@@ -45,7 +45,6 @@ export class HomePageComponent {
   ngOnInit() {
     this.datalist = [];
     this.filterList = [];
-    $('#filterdata').show();
     let windowHeight = $(window).height();
     let height = (windowHeight * 100) / 100;
     let height1 = (windowHeight * 80) / 100;
@@ -75,7 +74,10 @@ export class HomePageComponent {
 
 
   selectedText() {
-    $('#divRight').show();
+    $('#savebtn').show();
+    $('#blocksbtn').show();
+    $('#txtSentance').show();
+
     this.page = Number($('#page').val());
     this.textlist = []
     let selection = document.getSelection();
@@ -232,12 +234,22 @@ export class HomePageComponent {
 
   savedData() {
     this.savedtextlist = JSON.parse(localStorage.getItem("saveData"));
+
     if (this.savedtextlist == null) {
       this.savedtextlist = [];
     }
     for (let i = 0; i < this.textlist.length; i++) {
       this.savedtextlist.push({ page: this.page, text: this.textlist[i] })
     }
-    localStorage.setItem("saveData", JSON.stringify(this.savedtextlist));
+    let abc = localStorage.setItem("saveData", JSON.stringify(this.savedtextlist));
+    if ($('#page').val() != "") {
+      this.page = Number($('#page').val());
+      this.filterList = [];
+      let pageDataList = this.savedtextlist.filter((item) => item.page == this.page);
+      if (pageDataList.length > 0) {
+        this.filterList = pageDataList;
+      }
+    }
+
   }
 }

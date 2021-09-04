@@ -86,17 +86,17 @@
         <div class="text-bg">
           PDF SELECTED DATA
         </div>
-        <div id="divRight" style="display: none;">
+        <div id="divRight" >
           <div class="coppied-text" name="selectedtextview" *ngFor="let txt of textlist">
             {{txt.sno}} {{txt.text}}<br />
           </div>
           <br>
-          <textarea id="txtSentance" style=" background-color:white; width:100%;height:100px">
+          <textarea id="txtSentance" style=" background-color:white; width:100%;height:100px;display: none;">
 
                  </textarea>
           <br />
 
-          <button class="btn btn-primary" (click)="showTextBlocks()" style="margin-top:10px;margin-bottom:10px;">Show
+          <button class="btn btn-primary" id="blocksbtn" (click)="showTextBlocks()" style="margin-top:10px;margin-bottom:10px;display: none;">Show
             Into Blocks</button>
 
           
@@ -126,7 +126,7 @@
           <button (click)="showTextBlocks()" class="btn btn-info"
             style="margin-top: 15px; margin-left: 10px;display: none;" id="resetbtn">Reset
           </button>
-          <button (click)="savedData()" class="btn btn-info" style="margin-top: 15px; margin-left: 10px;">Save </button>
+          <button (click)="savedData()" class="btn btn-info" style="margin-top: 15px; margin-left: 10px;display: none;" id="savebtn">Save </button>
 
           <br />
 
@@ -153,7 +153,7 @@
 
     </div>
 
-    <section class="footer">
+    <!-- <section class="footer">
       <div class="row">
         <div class="col-12 pr-0 pl-0">
           <nav class="navbar navbar-expand-lg  navbar-light bg-light">
@@ -169,7 +169,7 @@
           </nav>
         </div>
       </div>
-    </section>
+    </section> -->
   </div>
 </body>
 
