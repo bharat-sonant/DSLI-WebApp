@@ -65,7 +65,6 @@ export class HomePageComponent {
   getSavedData() {
     if ($('#page').val() != "") {
       this.page = Number($('#page').val());
-      console.log(this.page);
       this.filterList = [];
       let pageDataList = this.savedtextlist.filter((item) => item.page == this.page);
       if (pageDataList.length > 0) {
@@ -76,8 +75,8 @@ export class HomePageComponent {
 
 
   selectedText() {
+    $('#divRight').show();
     this.page = Number($('#page').val());
-    console.log(this.page);
     this.textlist = []
     let selection = document.getSelection();
     let selectedText = selection.toString();
@@ -97,6 +96,14 @@ export class HomePageComponent {
   }
 
   showTextBlocks() {
+    $('#resetbtn').show();
+    $('#deletebtn').show();
+    $('#commonbtn').show();
+    $('#uncommonbtn').show();
+    $('#fingerbtn').show();
+    $('#cmntextdiv').show();
+    $('#uncmntextdiv').show();
+    $('#fngtextdiv').show();
     this.everyele = [];
     this.arrayList1 = [];
     let arrayList = [];
@@ -118,14 +125,7 @@ export class HomePageComponent {
         }
       }
     }
-    for (let i = 0; i <= this.everyele.length; i++) {
-      for (let j = 0; j <= this.datalist.length; j++) {
 
-        if (this.everyele[i] == this.datalist[j]["word"]) {
-
-        }
-      }
-    }
   }
 
   editText(index: any) {
@@ -176,7 +176,7 @@ export class HomePageComponent {
     }
   }
 
-  
+
   uncommonText() {
     this.uncommontextlist = []
     for (let i = 0; i < this.everyele.length; i++) {
@@ -226,6 +226,7 @@ export class HomePageComponent {
   reset() {
 
     this.showTextBlocks();
+
   }
 
 
