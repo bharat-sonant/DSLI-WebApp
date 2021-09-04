@@ -55,10 +55,10 @@
       <div class="col-md-6 pl-0" id="left-div" style="position:relative;">
         <div class="row">
           <div class="col-md-8 pr-0 info text-center">
-            <h3><b>Coppy Text</b> from the <b>Book</b> and Click on Convert Button</h3>
+            <h3><b>Copy Text</b> from the <b>Book</b> and Click on Convert Button</h3>
           </div>
-          <div class="col-md-4 pl-0">
-            <div class="enter-page">
+          <div class="col-md-4 pl-0" >
+            <div class="enter-page" style="display: flex;">
               <label for="page"> Enter Page No. </label>
               <input class="page-box" type="text" [(ngModel)]="page" id="page" (keyup)="getSavedData();" >
             </div>
@@ -66,8 +66,8 @@
 
           <div class="col-md-12">
             <div class="book-scroll">
-              <pdf-viewer [stick-to-page]="stickToPage" [(page)]="page" [src]="pdfSource" value="Get Selection"
-                [original-size]="false"></pdf-viewer>
+              <pdf-viewer  [(page)]="page" [src]="pdfSource" value="Get Selection"
+                [original-size]="false" ></pdf-viewer>
             </div>
           </div>
           <div class="col-md-12">
@@ -152,7 +152,7 @@
       </div>
 
     </div>
-    <!--
+    
         <section class="footer">
                 <div class="row">
                         <div class="col-12 pr-0 pl-0">
@@ -169,7 +169,7 @@
                                   </nav>
                             </div>
                 </div>
-            </section>-->
+            </section>
   </div>
 </body>
 

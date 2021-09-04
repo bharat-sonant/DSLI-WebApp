@@ -24,14 +24,11 @@ export class HomePageComponent {
   updatelist1: any[] = [];
   page: number = 1;
   arrayList = [];
-  stickToPage:number=1;
-
   arrayList1: any[];
   isChecked: boolean;
   commontextlist: any[];
   uncommontextlist: any[];
   savedtextlist: any[]
-
   checked: boolean;
   fingerlist: any[];
   datalist: any[];
@@ -45,13 +42,10 @@ export class HomePageComponent {
     this.everyele[event.container.data.index] = event.previousContainer.data.item
   }
 
-
-
   ngOnInit() {
     this.datalist = [];
     this.filterList = [];
     $('#filterdata').show();
-    const hideThisDiv = true;
     let windowHeight = $(window).height();
     let height = (windowHeight * 100) / 100;
     let height1 = (windowHeight * 80) / 100;
@@ -71,6 +65,7 @@ export class HomePageComponent {
   getSavedData() {
     if ($('#page').val() != "") {
       this.page = Number($('#page').val());
+      console.log(this.page);
       this.filterList = [];
       let pageDataList = this.savedtextlist.filter((item) => item.page == this.page);
       if (pageDataList.length > 0) {
@@ -79,12 +74,13 @@ export class HomePageComponent {
     }
   }
 
+
   selectedText() {
+    this.page = Number($('#page').val());
+    console.log(this.page);
     this.textlist = []
     let selection = document.getSelection();
     let selectedText = selection.toString();
-
-
     if (selectedText != "") {
       this.splittxt = selectedText.split(".");
       this.textlist.push({ text: this.splittxt[0] }) as any;
@@ -93,18 +89,17 @@ export class HomePageComponent {
       $('#divRight').show();
 
     }
-
     this.commontextlist = [];
     this.fingerlist = [];
     this.uncommontextlist = [];
     this.everyele = [];
+    this.getSavedData();
   }
 
   showTextBlocks() {
     this.everyele = [];
     this.arrayList1 = [];
     let arrayList = [];
-
     this.fingerlist = [];
     this.commontextlist = [];
     this.uncommontextlist = [];
@@ -114,10 +109,7 @@ export class HomePageComponent {
       if (arrayList[i].trim() != "") {
         this.everyele.push(arrayList[i].trim());
       }
-
-
     }
-
     if (this.everyele.length > 0) {
       for (let i = 0; i < this.everyele.length; i++) {
         let check = <HTMLInputElement>document.getElementById("chk" + i);
@@ -126,8 +118,6 @@ export class HomePageComponent {
         }
       }
     }
-
-
     for (let i = 0; i <= this.everyele.length; i++) {
       for (let j = 0; j <= this.datalist.length; j++) {
 
@@ -136,20 +126,14 @@ export class HomePageComponent {
         }
       }
     }
-
-
-
-
-
   }
-
 
   editText(index: any) {
     document.getElementById("txt" + index).addEventListener("input", function () {
     }, false);
-
-
   }
+
+
   updateText() {
     this.updatelist = [];
     this.updatelist1 = [];
@@ -167,9 +151,9 @@ export class HomePageComponent {
       }
     }
     this.everyele = arrayList;
-
-
   }
+
+
   commonText() {
     this.commontextlist = []
     for (let i = 0; i < this.everyele.length; i++) {
@@ -177,11 +161,7 @@ export class HomePageComponent {
       if (check.checked == true) {
         let divVal = $('#txt' + i).html();
         this.commontextlist.push(divVal);
-
-
       }
-
-
     }
 
     for (let i = 0; i < this.everyele.length; i++) {
@@ -196,6 +176,7 @@ export class HomePageComponent {
     }
   }
 
+  
   uncommonText() {
     this.uncommontextlist = []
     for (let i = 0; i < this.everyele.length; i++) {
@@ -203,12 +184,8 @@ export class HomePageComponent {
       if (check.checked == true) {
         let divVal = $('#txt' + i).html();
         this.uncommontextlist.push(divVal);
-
-
       }
-
     }
-
     for (let i = 0; i < this.everyele.length; i++) {
       for (let j = 0; j <= this.uncommontextlist.length; j++) {
         if (this.everyele[i] == this.uncommontextlist[j]) {
@@ -216,11 +193,11 @@ export class HomePageComponent {
           element.disabled = true;
           element.checked = false;
         }
-
       }
     }
-
   }
+
+
   finger() {
     this.fingerlist = []
     for (let i = 0; i < this.everyele.length; i++) {
@@ -244,10 +221,13 @@ export class HomePageComponent {
       }
     }
   }
+
+
   reset() {
 
     this.showTextBlocks();
   }
+
 
   savedData() {
     this.savedtextlist = JSON.parse(localStorage.getItem("saveData"));
@@ -257,8 +237,6 @@ export class HomePageComponent {
     for (let i = 0; i < this.textlist.length; i++) {
       this.savedtextlist.push({ page: this.page, text: this.textlist[i] })
     }
-
-
     localStorage.setItem("saveData", JSON.stringify(this.savedtextlist));
   }
 }
