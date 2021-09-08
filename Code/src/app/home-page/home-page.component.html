@@ -2,28 +2,29 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <title>DSLI</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>DSLI</title>
 </head>
 
 <body>
-  <div>
-    <div class="row" style="display: flex">
-      <div class="col-12 pr-0 pl-0">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="../../assets/images/logo.png" class="img-fluid logo"
-                alt="Sonant Logo"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-              aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-              <!-- <ul class="navbar-nav ml-auto">
+    <div>
+        <div class="row" style="display: flex">
+            <div class="col-12 pr-0 pl-0">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="#"><img src="../../assets/images/logo.png" class="img-fluid logo"
+                                alt="Sonant Logo"></a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                            aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                            <!-- <ul class="navbar-nav ml-auto">
                                   <li class="nav-item">
                                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                                   </li>
@@ -44,116 +45,122 @@
                                     </ul>
                                   </li>
                                 </ul> -->
+                        </div>
+                    </div>
+                </nav>
             </div>
-          </div>
-        </nav>
-      </div>
-    </div>
-
-    <div class="row" style="display: flex">
-      <!-- left div -->
-      <div class="col-md-6 pl-0" id="left-div" style="position:relative;">
-        <div class="row">
-          <div class="col-md-8 pr-0 info text-center">
-            <h3><b>Copy Text</b> from the <b>Book</b> and Click on Convert Button</h3>
-          </div>
-          <div class="col-md-4 pl-0">
-            <div class="enter-page" style="display: flex;">
-              <label for="page"> Enter Page No. </label>
-              <input class="page-box" type="text" [(ngModel)]="page" id="page" (keyup)="getSavedData();">
-            </div>
-          </div>
-
-          <div class="col-md-12">
-            <div class="book-scroll">
-              <pdf-viewer [(page)]="page" [src]="pdfSource" value="Get Selection" [original-size]="false"></pdf-viewer>
-            </div>
-          </div>
-          <div class="col-md-12">
-            <div class="coppier-btn">
-              <button type="button" class="btn btn-success" (click)=" selectedText()" style="margin-left:15px;">Convert
-                ⇉</button>
-            </div>
-          </div>
         </div>
 
+        <div class="row" style="display: flex">
+            <!-- left div -->
+            <div class="col-md-6 pl-0" id="left-div" style="position:relative;">
+                <div class="row">
+                    <div class="col-md-8 pr-0 info text-center">
+                        <h3><b>Copy Text</b> from the <b>Book</b> and Click on Convert Button</h3>
+                    </div>
+                    <div class="col-md-4 pl-0">
+                        <div class="enter-page" style="display: flex;">
+                            <label for="page"> Enter Page No. </label>
+                            <input class="page-box" type="text" [(ngModel)]="page" id="page" (keyup)="getSavedData();">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="book-scroll">
+                            <pdf-viewer [(page)]="page" [src]="pdfSource" value="Get Selection" [original-size]="false">
+                            </pdf-viewer>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="coppier-btn">
+                            <button type="button" class="btn btn-success" (click)=" selectedText()"
+                                style="margin-left:15px;">Convert
+                                ⇉</button>
+                        </div>
+                    </div>
+                </div>
 
 
 
-      </div>
-      <!-- right div -->
-      <div class="col-md-6 pl-0" style="  overflow-x: auto; overflow-y: auto;">
-        <div class="text-bg">
-          PDF SELECTED DATA
-        </div>
-        <div id="divRight" >
-          <div class="coppied-text" name="selectedtextview" *ngFor="let txt of textlist">
-            {{txt.sno}} {{txt.text}}<br />
-          </div>
-          <br>
-          <textarea id="txtSentance" style=" background-color:white; width:100%;height:100px;display: none;">
+
+            </div>
+            <!-- right div -->
+            <div class="col-md-6 pl-0" style="  overflow-x: auto; overflow-y: auto;">
+                <div class="text-bg">
+                    PDF SELECTED DATA
+                </div>
+                <div id="divRight">
+                    <div class="coppied-text" name="selectedtextview" *ngFor="let txt of textlist">
+                        {{txt.sno}} {{txt.text}}<br />
+                    </div>
+                    <br>
+                    <textarea id="txtSentance" style=" background-color:white; width:100%;height:100px;display: none;">
 
                  </textarea>
-          <br />
+                    <br />
 
-          <button class="btn btn-primary" id="blocksbtn" (click)="showTextBlocks()" style="margin-top:10px;margin-bottom:10px;display: none;">Show
-            Into Blocks</button>
+                    <button class="btn btn-primary" id="blocksbtn" (click)="showTextBlocks()"
+                        style="margin-top:10px;margin-bottom:10px;display: none;">Show
+                        Into Blocks</button>
 
-          
+
+                    <p id="clicktxt" style="display: none;">For <b>edit</b> text please <b>Right click</b> on the <b> text</b> 
+                    </p>
+
+                    <div #contenedor class="categories" style="width:100% ;" cdkDropListGroup>
+                        <ng-container *ngFor="let item of everyele;let i=index" style="display: flex;">
+                            <div class="categories-item" cdkDropList (click)="editText(i)"
+                                cdkDropListOrientation="horizontal" [cdkDropListData]="{item:item,index:i}"
+                                (cdkDropListDropped)="drop($event)">
+                                <div class="inner" cdkDrag oncontextmenu="return false">
+
+                                    <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                                    <input type="checkbox" style="float: right;" id="chk{{i}}">
+                                    <div id="txt{{i}}" contenteditable="true">{{item}}</div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <button (click)="deleteText()" class="btn btn-danger" style="margin-top: 15px;display: none;"
+                        id="deletebtn">Delete Selected</button>
+                    <button (click)="commonText()" class="btn btn-info" id="commonbtn"
+                        style="margin-top: 15px; margin-left: 10px;display: none;">Common</button>
+                    <button (click)="uncommonText()" class="btn btn-info" id="uncommonbtn"
+                        style="margin-top: 15px; margin-left: 10px;display: none;">Uncommon</button>
+                    <button (click)="finger()" class="btn btn-info"
+                        style="margin-top: 15px; margin-left: 10px;display: none;" id="fingerbtn">Finger</button>
+                    <button (click)="showTextBlocks()" class="btn btn-info"
+                        style="margin-top: 15px; margin-left: 10px;display: none;" id="resetbtn">Reset
+                    </button>
+                    <button (click)="savedData()" class="btn btn-info"
+                        style="margin-top: 15px; margin-left: 10px;display: none;" id="savebtn">Save </button>
+
+                    <br />
 
 
-          <div #contenedor class="categories" style="width:100% ; overflow-y: scroll;" cdkDropListGroup>
-            <ng-container *ngFor="let item of everyele;let i=index" style="display: flex;">
-              <div class="categories-item" cdkDropList (click)="editText(i)" cdkDropListOrientation="horizontal"
-                [cdkDropListData]="{item:item,index:i}" (cdkDropListDropped)="drop($event)">
-                <div class="inner" cdkDrag>
+                    <div style="background-color: lightgray; margin-top: 5px;display: none;" id="cmntextdiv">
+                        <label><b>Common Text</b></label><br />
+                        {{commontextlist}}
+                    </div>
+                    <div style="background-color: lightgray; margin-top: 10px;display: none;" id="uncmntextdiv">
+                        <label><b>Uncommon Text</b></label><br />
+                        {{uncommontextlist}}
+                    </div>
+                    <div style="background-color: lightgray; margin-top: 10px;display: none;" id="fngtextdiv">
+                        <label><b>Finger</b></label><br />
+                        {{fingerlist}}
+                    </div>
+                    <label><b>Saved Data</b></label><br />
+                    <div style="background-color: lightgray; margin-top: 10px;" *ngFor="let svt of filterList">
 
-                  <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
-                  <input type="checkbox" style="float: right;" id="chk{{i}}">
-                  <div id="txt{{i}}">{{item}}</div>
+                        {{svt.page}}-{{svt.text.text}}
+                    </div>
                 </div>
-              </div>
-            </ng-container>
-          </div>
-          <button (click)="updateText()" class="btn btn-danger" style="margin-top: 15px;display: none;"
-            id="deletebtn">Delete Selected</button>
-          <button (click)="commonText()" class="btn btn-info" id="commonbtn"
-            style="margin-top: 15px; margin-left: 10px;display: none;">Common</button>
-          <button (click)="uncommonText()" class="btn btn-info" id="uncommonbtn"
-            style="margin-top: 15px; margin-left: 10px;display: none;">Uncommon</button>
-          <button (click)="finger()" class="btn btn-info" style="margin-top: 15px; margin-left: 10px;display: none;"
-            id="fingerbtn">Finger</button>
-          <button (click)="showTextBlocks()" class="btn btn-info"
-            style="margin-top: 15px; margin-left: 10px;display: none;" id="resetbtn">Reset
-          </button>
-          <button (click)="savedData()" class="btn btn-info" style="margin-top: 15px; margin-left: 10px;display: none;" id="savebtn">Save </button>
+            </div>
 
-          <br />
-
-
-          <div style="background-color: lightgray; margin-top: 5px;display: none;" id="cmntextdiv">
-            <label><b>Common Text</b></label><br />
-            {{commontextlist}}
-          </div>
-          <div style="background-color: lightgray; margin-top: 10px;display: none;" id="uncmntextdiv">
-            <label><b>Uncommon Text</b></label><br />
-            {{uncommontextlist}}
-          </div>
-          <div style="background-color: lightgray; margin-top: 10px;display: none;" id="fngtextdiv">
-            <label><b>Finger</b></label><br />
-            {{fingerlist}}
-          </div>
-          <label><b>Saved Data</b></label><br />
-          <div style="background-color: lightgray; margin-top: 10px;" *ngFor="let svt of filterList">
-
-            {{svt.page}}-{{svt.text.text}}
-          </div>
         </div>
-      </div>
 
-    </div>
-
-    <!-- <section class="footer">
+        <!-- <section class="footer">
       <div class="row">
         <div class="col-12 pr-0 pl-0">
           <nav class="navbar navbar-expand-lg  navbar-light bg-light">
@@ -170,7 +177,7 @@
         </div>
       </div>
     </section> -->
-  </div>
+    </div>
 </body>
 
 </html>

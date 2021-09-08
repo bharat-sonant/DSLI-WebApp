@@ -3,7 +3,7 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;                /* NEW */
-     width:15rem;
+     width:fit-content;
   }
    
   .inner
@@ -12,9 +12,10 @@
     height:100%;
     border:1px solid blue;
       text-align: center;
-    line-height: 5rem;
+    /* line-height: 2rem; */
       background-color: #efefef;
       cursor:move;
+      position: relative;
   
   
   }
@@ -25,8 +26,9 @@
     background-color: transparent;
     height: 5rem;
     text-align: center;
-    line-height: 5rem;
+    /* line-height: 2rem; */
     position:relative;
+    
   }
   .placeholder {
     flex: 1 0 5rem;                 /* NEW */

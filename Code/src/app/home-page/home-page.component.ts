@@ -34,6 +34,7 @@ export class HomePageComponent {
   datalist: any[];
   savedtextlist1: any[];
   filterList: any[];
+  editTextList:any[];
   constructor(public db: AngularFireDatabase) {
   }
 
@@ -106,6 +107,7 @@ export class HomePageComponent {
     $('#cmntextdiv').show();
     $('#uncmntextdiv').show();
     $('#fngtextdiv').show();
+    $('#clicktxt').show();
     this.everyele = [];
     this.arrayList1 = [];
     let arrayList = [];
@@ -131,12 +133,25 @@ export class HomePageComponent {
   }
 
   editText(index: any) {
+    this.editTextList=[]
     document.getElementById("txt" + index).addEventListener("input", function () {
     }, false);
+    
+    for(let i=0;i<=this.everyele.length;i++)
+    {
+    let divVal = $('#txt' + i).html();
+    if (divVal != undefined)
+    {
+      if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
+        this.editTextList.push(divVal);
+      }
+    }
   }
-
-
-  updateText() {
+  console.log(this.editTextList)
+}
+      
+  deleteText() {
+    
     this.updatelist = [];
     this.updatelist1 = [];
     let value = 0;
@@ -157,12 +172,14 @@ export class HomePageComponent {
 
 
   commonText() {
+
     this.commontextlist = []
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
         let divVal = $('#txt' + i).html();
         this.commontextlist.push(divVal);
+        
       }
     }
 
@@ -176,16 +193,20 @@ export class HomePageComponent {
 
       }
     }
+
   }
 
 
   uncommonText() {
+
+   
     this.uncommontextlist = []
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
         let divVal = $('#txt' + i).html();
         this.uncommontextlist.push(divVal);
+       
       }
     }
     for (let i = 0; i < this.everyele.length; i++) {
@@ -201,12 +222,16 @@ export class HomePageComponent {
 
 
   finger() {
+    
+    
+   
     this.fingerlist = []
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
         let divVal = $('#txt' + i).html();
         this.fingerlist.push(divVal);
+       
 
 
       }
