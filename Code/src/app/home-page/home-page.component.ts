@@ -34,7 +34,7 @@ export class HomePageComponent {
   datalist: any[];
   savedtextlist1: any[];
   filterList: any[];
-  editTextList:any[];
+  editTextList: any[];
   constructor(public db: AngularFireDatabase) {
   }
 
@@ -132,48 +132,68 @@ export class HomePageComponent {
 
   }
 
-  editText(index: any) {
-    this.editTextList=[]
-    document.getElementById("txt" + index).addEventListener("input", function () {
-    }, false);
-    
-    for(let i=0;i<=this.everyele.length;i++)
-    {
-    let divVal = $('#txt' + i).html();
-    if (divVal != undefined)
-    {
-      if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
-        this.editTextList.push(divVal);
+  disableCheck() {
+    for (let i = 0; i < this.everyele.length; i++) {
+      for(let j=0;j<this.commontextlist.length;j++)
+      {
+      if(this.everyele[i]==this.commontextlist[j])
+      {
+      let element = <HTMLInputElement>document.getElementById("chk" + i);
+      if (element.checked! = true) {
+        element.disabled = true;
+        element.checked = false;
+       
       }
     }
+    }
+    }
   }
-  console.log(this.editTextList)
-}
-      
+
+  editText(index: any) {
+    this.editTextList = []
+    document.getElementById("txt" + index).addEventListener("input", function () {
+    }, false);
+
+    for (let i = 0; i <= this.everyele.length; i++) {
+      let divVal = $('#txt' + i).html();
+      if (divVal != undefined) {
+        if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
+          this.editTextList.push(divVal);
+        }
+      }
+    }
+
+
+  }
+
+
   deleteText() {
-    
+
     this.updatelist = [];
     this.updatelist1 = [];
-    let value = 0;
-    let arrayList = [];
+    this.arrayList = [];
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == false) {
         let divVal = $('#txt' + i).html();
         if (divVal != undefined) {
           if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
-            arrayList.push(divVal);
+            this.arrayList.push(divVal);
+
           }
         }
       }
     }
-    this.everyele = arrayList;
+    this.everyele = this.arrayList;
+    this. disableCheck()
+
   }
 
 
   commonText() {
 
-    this.commontextlist = []
+    this.commontextlist=[];
+    
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
@@ -182,7 +202,7 @@ export class HomePageComponent {
         let element = <HTMLInputElement>document.getElementById("chk" + i);
           element.disabled = true;
           element.checked = false;
-        
+
       }
     }
 
@@ -201,15 +221,15 @@ export class HomePageComponent {
 
 
   uncommonText() {
-
-   
-    this.uncommontextlist = []
+    this.uncommontextlist=[];
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
         let divVal = $('#txt' + i).html();
         this.uncommontextlist.push(divVal);
-       
+        let element = <HTMLInputElement>document.getElementById("chk" + i);
+          element.disabled = true;
+          element.checked = false;
       }
     }
     for (let i = 0; i < this.everyele.length; i++) {
@@ -225,16 +245,15 @@ export class HomePageComponent {
 
 
   finger() {
-    
-    
-   
-    this.fingerlist = []
+    this.fingerlist=[];
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
         let divVal = $('#txt' + i).html();
         this.fingerlist.push(divVal);
-       
+        let element = <HTMLInputElement>document.getElementById("chk" + i);
+        element.disabled = true;
+        element.checked = false;
 
 
       }
