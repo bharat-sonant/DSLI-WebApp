@@ -179,6 +179,9 @@ export class HomePageComponent {
       if (check.checked == true) {
         let divVal = $('#txt' + i).html();
         this.commontextlist.push(divVal);
+        let element = <HTMLInputElement>document.getElementById("chk" + i);
+          element.disabled = true;
+          element.checked = false;
         
       }
     }
