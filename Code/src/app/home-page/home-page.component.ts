@@ -159,9 +159,7 @@ export class HomePageComponent {
     for (let i = 0; i < this.everyele.length; i++) {
      let wordDetail = this.MoCapList.find(item => item.word == this.everyele[i].trim());
         if (wordDetail != undefined) {
-          console.log(wordDetail.word);
           if (wordDetail.word == this.everyele[i].trim()) {
-            console.log(i)
             setTimeout(() => {
               $('#dragdiv' + i).css("background-color", "lightgreen"); 
             }, 200);
