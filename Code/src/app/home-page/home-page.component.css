@@ -21,10 +21,10 @@
   }
   
   .categories-item {
-    flex: 1 0 5rem;                 /* NEW */
+    flex: 1 0 200px;                 /* NEW */
     margin: 5px;                   /* NEW */
     background-color: transparent;
-    height: 5rem;
+    min-height: 3rem;
     text-align: center;
     /* line-height: 2rem; */
     position:relative;
