@@ -35,6 +35,7 @@ export class HomePageComponent {
   savedtextlist1: any[];
   filterList: any[];
   editTextList: any[];
+  MoCapList: any[];
   constructor(public db: AngularFireDatabase) {
   }
 
@@ -59,7 +60,23 @@ export class HomePageComponent {
     if (pageDataList.length > 0) {
       this.filterList = pageDataList;
     }
+    this.getData();
 
+  }
+
+  getData() {
+    this.MoCapList = [];
+    let dbPath = "MoCap";
+    let instance = this.db.list(dbPath).valueChanges().subscribe(
+      data => {
+        instance.unsubscribe();
+        if(data.length>0){
+          for(let i=0;i<data.length;i++){
+            this.MoCapList.push({word:data[i]["Word"]});
+          }
+        }
+      }
+    );
   }
 
   getSavedData() {
@@ -119,6 +136,11 @@ export class HomePageComponent {
     for (let i = 0; i < arrayList.length; i++) {
       if (arrayList[i].trim() != "") {
         this.everyele.push(arrayList[i].trim());
+        let wordDetail=this.MoCapList.find(item=>item.word==arrayList[i].trim());
+        if(wordDetail!=undefined){
+          console.log(wordDetail.word);
+          
+        }
       }
     }
     if (this.everyele.length > 0) {
@@ -134,18 +156,16 @@ export class HomePageComponent {
 
   disableCheck() {
     for (let i = 0; i < this.everyele.length; i++) {
-      for(let j=0;j<this.commontextlist.length;j++)
-      {
-      if(this.everyele[i]==this.commontextlist[j])
-      {
-      let element = <HTMLInputElement>document.getElementById("chk" + i);
-      if (element.checked! = true) {
-        element.disabled = true;
-        element.checked = false;
-       
+      for (let j = 0; j < this.commontextlist.length; j++) {
+        if (this.everyele[i] == this.commontextlist[j]) {
+          let element = <HTMLInputElement>document.getElementById("chk" + i);
+          if (element.checked! = true) {
+            element.disabled = true;
+            element.checked = false;
+
+          }
+        }
       }
-    }
-    }
     }
   }
 
@@ -185,23 +205,23 @@ export class HomePageComponent {
       }
     }
     this.everyele = this.arrayList;
-    this. disableCheck()
+    this.disableCheck()
 
   }
 
 
   commonText() {
 
-    this.commontextlist=[];
-    
+    this.commontextlist = [];
+
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
         let divVal = $('#txt' + i).html();
         this.commontextlist.push(divVal);
         let element = <HTMLInputElement>document.getElementById("chk" + i);
-          element.disabled = true;
-          element.checked = false;
+        element.disabled = true;
+        element.checked = false;
 
       }
     }
@@ -221,15 +241,15 @@ export class HomePageComponent {
 
 
   uncommonText() {
-    this.uncommontextlist=[];
+    this.uncommontextlist = [];
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
         let divVal = $('#txt' + i).html();
         this.uncommontextlist.push(divVal);
         let element = <HTMLInputElement>document.getElementById("chk" + i);
-          element.disabled = true;
-          element.checked = false;
+        element.disabled = true;
+        element.checked = false;
       }
     }
     for (let i = 0; i < this.everyele.length; i++) {
@@ -245,7 +265,7 @@ export class HomePageComponent {
 
 
   finger() {
-    this.fingerlist=[];
+    this.fingerlist = [];
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
