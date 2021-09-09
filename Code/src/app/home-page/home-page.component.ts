@@ -70,9 +70,9 @@ export class HomePageComponent {
     let instance = this.db.list(dbPath).valueChanges().subscribe(
       data => {
         instance.unsubscribe();
-        if(data.length>0){
-          for(let i=0;i<data.length;i++){
-            this.MoCapList.push({word:data[i]["Word"]});
+        if (data.length > 0) {
+          for (let i = 0; i < data.length; i++) {
+            this.MoCapList.push({ word: data[i]["Word"] });
           }
         }
       }
@@ -133,14 +133,11 @@ export class HomePageComponent {
     this.uncommontextlist = [];
     let divval = $('#txtSentance').val();
     arrayList = divval.toString().split(" ");
+
     for (let i = 0; i < arrayList.length; i++) {
       if (arrayList[i].trim() != "") {
         this.everyele.push(arrayList[i].trim());
-        let wordDetail=this.MoCapList.find(item=>item.word==arrayList[i].trim());
-        if(wordDetail!=undefined){
-          console.log(wordDetail.word);
-          
-        }
+
       }
     }
     if (this.everyele.length > 0) {
@@ -152,6 +149,26 @@ export class HomePageComponent {
       }
     }
 
+    this.setColor();
+
+  }
+
+
+  setColor() {
+
+    for (let i = 0; i < this.everyele.length; i++) {
+     let wordDetail = this.MoCapList.find(item => item.word == this.everyele[i].trim());
+        if (wordDetail != undefined) {
+          console.log(wordDetail.word);
+          if (wordDetail.word == this.everyele[i].trim()) {
+            console.log(i)
+            setTimeout(() => {
+              $('#dragdiv' + i).css("background-color", "lightgreen"); 
+            }, 200);
+           
+          }
+        }
+    }
   }
 
   disableCheck() {

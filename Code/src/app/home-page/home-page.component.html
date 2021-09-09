@@ -112,7 +112,7 @@
                             <div class="categories-item" cdkDropList (click)="editText(i)"
                                 cdkDropListOrientation="horizontal" [cdkDropListData]="{item:item,index:i}"
                                 (cdkDropListDropped)="drop($event)">
-                                <div class="inner" cdkDrag oncontextmenu="return false">
+                                <div class="inner" cdkDrag oncontextmenu="return false" id="dragdiv{{i}}">
 
                                     <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
                                     <input type="checkbox" style="float: right;" id="chk{{i}}">
@@ -151,9 +151,9 @@
                         {{fingerlist}}
                     </div>
                     <label><b>Saved Data</b></label><br />
-                    <div style="background-color: lightgray; margin-top: 10px;" *ngFor="let svt of filterList">
+                    <div style="background-color: lightgray; margin-top: 10px;" *ngFor="let svt of filterList; let i=index">
 
-                        {{svt.page}}-{{svt.text.text}}
+                        {{svt.page}}-{{i+1}}-{{svt.text.text}}
                     </div>
                 </div>
             </div>
