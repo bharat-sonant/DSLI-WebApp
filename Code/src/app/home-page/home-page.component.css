@@ -21,7 +21,7 @@
   }
   
   .categories-item {
-    flex: 1 0 200px;                 /* NEW */
+    flex: 1 0 150px;                 /* NEW */
     margin: 5px;                   /* NEW */
     background-color: transparent;
     min-height: 3rem;

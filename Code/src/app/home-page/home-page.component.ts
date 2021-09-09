@@ -181,6 +181,26 @@ export class HomePageComponent {
           }
         }
       }
+      for (let j = 0; j < this.uncommontextlist.length; j++) {
+        if (this.everyele[i] == this.uncommontextlist[j]) {
+          let element = <HTMLInputElement>document.getElementById("chk" + i);
+          if (element.checked! = true) {
+            element.disabled = true;
+            element.checked = false;
+
+          }
+        }
+      }
+      for (let j = 0; j < this.fingerlist.length; j++) {
+        if (this.everyele[i] == this.fingerlist[j]) {
+          let element = <HTMLInputElement>document.getElementById("chk" + i);
+          if (element.checked! = true) {
+            element.disabled = true;
+            element.checked = false;
+
+          }
+        }
+      }
     }
   }
 
@@ -217,6 +237,9 @@ export class HomePageComponent {
 
           }
         }
+      }
+      else{
+        check.checked =false;
       }
     }
     this.everyele = this.arrayList;
