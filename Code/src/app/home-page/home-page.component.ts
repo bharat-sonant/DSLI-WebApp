@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, VERSION } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
+import { data } from 'jquery';
 
 @Component({
   selector: 'app-home-page',
@@ -36,6 +37,15 @@ export class HomePageComponent {
   filterList: any[];
   editTextList: any[];
   MoCapList: any[];
+  data: any;
+  commonFindList: any[];
+  textstring: any[];
+  DatabaseList: any[];
+  pageNo: any;
+  sentanceNo: any;
+  pdfSentance: any[];
+  prevPage:number;
+
   constructor(public db: AngularFireDatabase) {
   }
 
@@ -56,11 +66,11 @@ export class HomePageComponent {
     if (this.savedtextlist == null) {
       this.savedtextlist = [];
     }
-    let pageDataList = this.savedtextlist.filter((item) => item.page == this.page);
-    if (pageDataList.length > 0) {
-      this.filterList = pageDataList;
-    }
-    this.getData();
+    // let pageDataList = this.savedtextlist.filter((item) => item.page == this.page);
+    // if (pageDataList.length > 0) {
+    //   this.filterList = pageDataList;
+    // }
+    // this.getData();
 
   }
 
@@ -79,13 +89,39 @@ export class HomePageComponent {
     );
   }
 
-  getSavedData() {
-    if ($('#page').val() != "") {
-      this.page = Number($('#page').val());
-      this.filterList = [];
-      let pageDataList = this.savedtextlist.filter((item) => item.page == this.page);
-      if (pageDataList.length > 0) {
-        this.filterList = pageDataList;
+
+  getSavedData(event: any,type:any) {
+    if (type == 1) {
+      this.pdfSentance = [];
+      let dbPath = "PDFSentance/Book1/" + this.page;
+      let instance = this.db.object(dbPath).valueChanges().subscribe(
+        data => {
+          instance.unsubscribe();
+          let keyArray = Object.keys(data);
+          for (let i = 0; i < keyArray.length; i++) {
+            let index = keyArray[i];
+            this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"] });
+          }
+          this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
+        }
+      );
+    }else if (event.key == "Enter") {
+      let pageNo = $('#page').val();
+      this.prevPage= Number(pageNo);
+      if (pageNo != "") {
+        this.pdfSentance = [];
+        let dbPath = "PDFSentance/Book1/" + Number(pageNo);
+        let instance = this.db.object(dbPath).valueChanges().subscribe(
+          data => {
+            instance.unsubscribe();
+            let keyArray = Object.keys(data);
+            for (let i = 0; i < keyArray.length; i++) {
+              let index = keyArray[i];
+              this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"] });
+            }
+            this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
+          }
+        );
       }
     }
   }
@@ -95,8 +131,14 @@ export class HomePageComponent {
     $('#savebtn').show();
     $('#blocksbtn').show();
     $('#txtSentance').show();
-
+    console.log(this.prevPage);
     this.page = Number($('#page').val());
+    console.log(this.page)
+    if(this.prevPage!= this.page)
+    {
+      this.pdfSentance=[];
+    
+    }
     this.textlist = []
     let selection = document.getSelection();
     let selectedText = selection.toString();
@@ -106,13 +148,13 @@ export class HomePageComponent {
       $('#txtSentance').val(this.splittxt[0]);
       let arrayList = this.textlist[0]["text"].split(" ");
       $('#divRight').show();
+      this.textstring = arrayList.join("");
 
     }
     this.commontextlist = [];
     this.fingerlist = [];
     this.uncommontextlist = [];
     this.everyele = [];
-    this.getSavedData();
   }
 
   showTextBlocks() {
@@ -121,9 +163,9 @@ export class HomePageComponent {
     $('#commonbtn').show();
     $('#uncommonbtn').show();
     $('#fingerbtn').show();
-    $('#cmntextdiv').show();
-    $('#uncmntextdiv').show();
-    $('#fngtextdiv').show();
+    // $('#cmntextdiv').show();
+    // $('#uncmntextdiv').show();
+    // $('#fngtextdiv').show();
     $('#clicktxt').show();
     this.everyele = [];
     this.arrayList1 = [];
@@ -150,6 +192,7 @@ export class HomePageComponent {
     }
 
     this.setColor();
+    this.getSavedData(null,1);
 
   }
 
@@ -157,15 +200,15 @@ export class HomePageComponent {
   setColor() {
 
     for (let i = 0; i < this.everyele.length; i++) {
-     let wordDetail = this.MoCapList.find(item => item.word == this.everyele[i].trim());
-        if (wordDetail != undefined) {
-          if (wordDetail.word == this.everyele[i].trim()) {
-            setTimeout(() => {
-              $('#dragdiv' + i).css("background-color", "lightgreen"); 
-            }, 200);
-           
-          }
+      let wordDetail = this.MoCapList.find(item => item.word == this.everyele[i].trim());
+      if (wordDetail != undefined) {
+        if (wordDetail.word == this.everyele[i].trim()) {
+          setTimeout(() => {
+            $('#dragdiv' + i).css("background-color", "lightgreen");
+          }, 200);
+
         }
+      }
     }
   }
 
@@ -235,11 +278,12 @@ export class HomePageComponent {
           if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
             this.arrayList.push(divVal);
 
+
           }
         }
       }
-      else{
-        check.checked =false;
+      else {
+        check.checked = false;
       }
     }
     this.everyele = this.arrayList;
@@ -260,6 +304,7 @@ export class HomePageComponent {
         let element = <HTMLInputElement>document.getElementById("chk" + i);
         element.disabled = true;
         element.checked = false;
+        this.saveData(divVal, "common");
 
       }
     }
@@ -275,8 +320,43 @@ export class HomePageComponent {
       }
     }
 
+
   }
 
+  saveData(word: any, type: any) {
+    let dbPath = "WordFrequency/" + word + "/" + type;
+    let instance = this.db.object(dbPath).valueChanges().subscribe(
+      data => {
+        instance.unsubscribe();
+        if (data != null) {
+          let count = Number(data) + 1;
+          dbPath = "WordFrequency/" + word;
+          if (type == "common") {
+            this.db.object(dbPath).update({ common: count });
+          }
+          else if (type == "unCommon") {
+            this.db.object(dbPath).update({ unCommon: count });
+          }
+          else if (type == "finger") {
+            this.db.object(dbPath).update({ finger: count });
+          }
+        }
+        else {
+          let count = 1;
+          dbPath = "WordFrequency/" + word;
+          if (type == "common") {
+            this.db.object(dbPath).update({ common: count });
+          }
+          else if (type == "unCommon") {
+            this.db.object(dbPath).update({ unCommon: count });
+          }
+          else if (type == "finger") {
+            this.db.object(dbPath).update({ finger: count });
+          }
+        }
+      }
+    );
+  }
 
   uncommonText() {
     this.uncommontextlist = [];
@@ -288,6 +368,7 @@ export class HomePageComponent {
         let element = <HTMLInputElement>document.getElementById("chk" + i);
         element.disabled = true;
         element.checked = false;
+        this.saveData(divVal, "unCommon");
       }
     }
     for (let i = 0; i < this.everyele.length; i++) {
@@ -312,8 +393,7 @@ export class HomePageComponent {
         let element = <HTMLInputElement>document.getElementById("chk" + i);
         element.disabled = true;
         element.checked = false;
-
-
+        this.saveData(divVal, "finger");
       }
 
     }
@@ -336,25 +416,16 @@ export class HomePageComponent {
 
   }
 
-
   savedData() {
-    this.savedtextlist = JSON.parse(localStorage.getItem("saveData"));
+    let dbPath = "PDFSentance/Book1/" + this.page + "/" + this.sentanceNo;
+    const data = {
+      actual: this.textlist[0]["text"],
+      modified: this.arrayList.join(" "),
+      actualString: this.textstring
+    }
 
-    if (this.savedtextlist == null) {
-      this.savedtextlist = [];
-    }
-    for (let i = 0; i < this.textlist.length; i++) {
-      this.savedtextlist.push({ page: this.page, text: this.textlist[i] })
-    }
-    let abc = localStorage.setItem("saveData", JSON.stringify(this.savedtextlist));
-    if ($('#page').val() != "") {
-      this.page = Number($('#page').val());
-      this.filterList = [];
-      let pageDataList = this.savedtextlist.filter((item) => item.page == this.page);
-      if (pageDataList.length > 0) {
-        this.filterList = pageDataList;
-      }
-    }
+    this.db.object(dbPath).update(data);
+    this.getSavedData(null,1);
 
   }
 }

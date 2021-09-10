@@ -61,7 +61,7 @@
                     <div class="col-md-4 pl-0">
                         <div class="enter-page" style="display: flex;">
                             <label for="page"> Enter Page No. </label>
-                            <input class="page-box" type="text" [(ngModel)]="page" id="page" (keyup)="getSavedData();">
+                            <input class="page-box" type="text" [(ngModel)]="page" id="page" (keyup)="getSavedData($event,0);">
                         </div>
                     </div>
 
@@ -151,9 +151,10 @@
                         {{fingerlist}}
                     </div>
                     <label><b>Saved Data</b></label><br />
-                    <div style="background-color: lightgray; margin-top: 10px;" *ngFor="let svt of filterList; let i=index">
+                    <div style="background-color: lightgray; margin-top: 10px;" *ngFor="let svt of pdfSentance;">
 
-                        {{svt.page}}-{{i+1}}-{{svt.text.text}}
+                        <span style="font-weight: bold;"> {{svt.index}}-{{svt.actual}}</span><br/>
+                        <span> {{svt.modified}}</span>
                     </div>
                 </div>
             </div>
