@@ -137,7 +137,36 @@ export class HomePageComponent {
     if(this.prevPage!= this.page)
     {
       this.pdfSentance=[];
-    
+      let dbPath = "PDFSentance/Book1/" + this.page;
+      let instance = this.db.object(dbPath).valueChanges().subscribe(
+        data => {
+          instance.unsubscribe();
+          let keyArray = Object.keys(data);
+          for (let i = 0; i < keyArray.length; i++) {
+            let index = keyArray[i];
+            this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"] });
+          }
+          this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
+        }
+      );
+      this.pdfSentance["modified"]=[];
+    }
+    else
+    {
+      this.pdfSentance=[];
+      let dbPath = "PDFSentance/Book1/" + this.page;
+      let instance = this.db.object(dbPath).valueChanges().subscribe(
+        data => {
+          instance.unsubscribe();
+          let keyArray = Object.keys(data);
+          for (let i = 0; i < keyArray.length; i++) {
+            let index = keyArray[i];
+            this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"] });
+          }
+          this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
+        }
+      );
+      this.pdfSentance["modified"]=[];
     }
     this.textlist = []
     let selection = document.getSelection();
