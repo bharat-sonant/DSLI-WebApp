@@ -45,7 +45,7 @@ export class HomePageComponent {
   sentanceNo: any;
   pdfSentance: any[];
   prevPage: number;
-  deletedList:any[];
+  deletedList: any[];
 
   constructor(public db: AngularFireDatabase) {
   }
@@ -67,16 +67,17 @@ export class HomePageComponent {
     if (this.savedtextlist == null) {
       this.savedtextlist = [];
     }
-    // let pageDataList = this.savedtextlist.filter((item) => item.page == this.page);
-    // if (pageDataList.length > 0) {
-    //   this.filterList = pageDataList;
-    // }
-    // this.getData();
+    this.getData();
 
   }
-  getDeleted()
-  {
-    
+  getDeleted() {
+    let dbPath = "deletedWords/";
+    let instance = this.db.list(dbPath).valueChanges().subscribe(
+      data => {
+        instance.unsubscribe();
+        console.log(data);
+      })
+
   }
 
   getData() {
@@ -170,7 +171,7 @@ export class HomePageComponent {
             this.sentanceNo = 1;
           }
         })
-        }
+    }
     else {
       this.pdfSentance = [];
       let dbPath = "PDFSentance/Book1/" + this.page;
@@ -189,7 +190,7 @@ export class HomePageComponent {
             this.sentanceNo = 1;
           }
         });
-      
+
     }
     this.textlist = []
     let selection = document.getSelection();
@@ -320,23 +321,21 @@ export class HomePageComponent {
     this.updatelist = [];
     this.updatelist1 = [];
     this.arrayList = [];
-    this.deletedList=[]
+    this.deletedList = []
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == false) {
         let divVal = $('#txt' + i).html();
-        
+
         if (divVal != undefined) {
           if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
             this.arrayList.push(divVal);
-            console.log(this.arrayList);
           }
         }
       }
-      else if(check.checked == true)
-      {
+      else if (check.checked == true) {
         let divVal = $('#txt' + i).html();
-        this.deletedList.push(divVal);  
+        this.deletedList.push(divVal);
         check.checked = false;
       }
       else {
@@ -346,17 +345,17 @@ export class HomePageComponent {
     this.deleteSelected()
     this.everyele = this.arrayList;
     this.disableCheck()
-    
+
   }
 
-  deleteSelected()
-  {
-    let dbPath="deletedWords/";
-    for(let i=0;i<this.deletedList.length;i++)
-    {
-    this.db.list(dbPath).push(this.deletedList[i])
+  deleteSelected() {
+    this.getDeleted();
+
+    let dbPath = "deletedWords/";
+    for (let i = 0; i < this.deletedList.length; i++) {
+      this.db.list(dbPath).push(this.deletedList[i])
+    }
   }
-}
 
   commonText() {
 
@@ -481,7 +480,7 @@ export class HomePageComponent {
     this.showTextBlocks();
 
   }
-  
+
   savedData() {
 
     let isData = false;
