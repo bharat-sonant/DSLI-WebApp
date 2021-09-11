@@ -146,7 +146,7 @@
                         <label><b>Uncommon Text</b></label><br />
                         {{uncommontextlist}}
                     </div>
-                    <div style="background-color: lightgray; margin-top: 10px;display: none;" id="fngtextdiv">
+                    <div style="background-color: rgb(218, 165, 165); margin-top: 10px;display: none;" id="fngtextdiv">
                         <label><b>Finger</b></label><br />
                         {{fingerlist}}
                     </div>
@@ -155,6 +155,7 @@
 
                         <span style="font-weight: bold;"> {{svt.index}}-{{svt.actual}}</span><br/>
                         <span> {{svt.modified}}</span>
+                        <button (click)="deleteSentance(svt.index)"    class="btn"><i class="fa fa-trash"></i></button>
                     </div>
                 </div>
             </div>

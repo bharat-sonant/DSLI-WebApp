@@ -44,7 +44,7 @@ export class HomePageComponent {
   pageNo: any;
   sentanceNo: any;
   pdfSentance: any[];
-  prevPage:number;
+  prevPage: number;
 
   constructor(public db: AngularFireDatabase) {
   }
@@ -90,36 +90,47 @@ export class HomePageComponent {
   }
 
 
-  getSavedData(event: any,type:any) {
+  getSavedData(event: any, type: any) {
     if (type == 1) {
       this.pdfSentance = [];
       let dbPath = "PDFSentance/Book1/" + this.page;
       let instance = this.db.object(dbPath).valueChanges().subscribe(
         data => {
           instance.unsubscribe();
-          let keyArray = Object.keys(data);
-          for (let i = 0; i < keyArray.length; i++) {
-            let index = keyArray[i];
-            this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"] });
+          if (data != null) {
+            let keyArray = Object.keys(data);
+
+            for (let i = 0; i < keyArray.length; i++) {
+              let index = keyArray[i];
+              this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"], actualString: data[index]["actualString"] });
+            }
+            this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
           }
-          this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
+          else {
+            this.sentanceNo = 1;
+          }
         }
       );
-    }else if (event.key == "Enter") {
+    } else if (event.key == "Enter") {
       let pageNo = $('#page').val();
-      this.prevPage= Number(pageNo);
+      this.prevPage = Number(pageNo);
       if (pageNo != "") {
         this.pdfSentance = [];
         let dbPath = "PDFSentance/Book1/" + Number(pageNo);
         let instance = this.db.object(dbPath).valueChanges().subscribe(
           data => {
             instance.unsubscribe();
-            let keyArray = Object.keys(data);
-            for (let i = 0; i < keyArray.length; i++) {
-              let index = keyArray[i];
-              this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"] });
+            if (data != null) {
+              let keyArray = Object.keys(data);
+              for (let i = 0; i < keyArray.length; i++) {
+                let index = keyArray[i];
+                this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"], actualString: data[index]["actualString"] });
+              }
+              this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
             }
-            this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
+            else {
+              this.sentanceNo = 1;
+            }
           }
         );
       }
@@ -134,39 +145,46 @@ export class HomePageComponent {
     console.log(this.prevPage);
     this.page = Number($('#page').val());
     console.log(this.page)
-    if(this.prevPage!= this.page)
-    {
-      this.pdfSentance=[];
+    if (this.prevPage != this.page) {
+      this.textlist = [];
+      this.arrayList = [];
+      this.pdfSentance = [];
       let dbPath = "PDFSentance/Book1/" + this.page;
       let instance = this.db.object(dbPath).valueChanges().subscribe(
         data => {
           instance.unsubscribe();
-          let keyArray = Object.keys(data);
-          for (let i = 0; i < keyArray.length; i++) {
-            let index = keyArray[i];
-            this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"] });
+          if (data != null) {
+            let keyArray = Object.keys(data);
+            for (let i = 0; i < keyArray.length; i++) {
+              let index = keyArray[i];
+              this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"], actualString: data[index]["actualString"] });
+            }
+            this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
           }
-          this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
+          else {
+            this.sentanceNo = 1;
+          }
+        })
         }
-      );
-      this.pdfSentance["modified"]=[];
-    }
-    else
-    {
-      this.pdfSentance=[];
+    else {
+      this.pdfSentance = [];
       let dbPath = "PDFSentance/Book1/" + this.page;
       let instance = this.db.object(dbPath).valueChanges().subscribe(
         data => {
           instance.unsubscribe();
-          let keyArray = Object.keys(data);
-          for (let i = 0; i < keyArray.length; i++) {
-            let index = keyArray[i];
-            this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"] });
+          if (data != null) {
+            let keyArray = Object.keys(data);
+            for (let i = 0; i < keyArray.length; i++) {
+              let index = keyArray[i];
+              this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"], actualString: data[index]["actualString"] });
+            }
+            this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
           }
-          this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
-        }
-      );
-      this.pdfSentance["modified"]=[];
+          else {
+            this.sentanceNo = 1;
+          }
+        });
+      
     }
     this.textlist = []
     let selection = document.getSelection();
@@ -221,7 +239,7 @@ export class HomePageComponent {
     }
 
     this.setColor();
-    this.getSavedData(null,1);
+    this.getSavedData(null, 1);
 
   }
 
@@ -444,17 +462,38 @@ export class HomePageComponent {
     this.showTextBlocks();
 
   }
-
+  
   savedData() {
-    let dbPath = "PDFSentance/Book1/" + this.page + "/" + this.sentanceNo;
-    const data = {
-      actual: this.textlist[0]["text"],
-      modified: this.arrayList.join(" "),
-      actualString: this.textstring
-    }
 
-    this.db.object(dbPath).update(data);
-    this.getSavedData(null,1);
+    let isData = false;
+    for (let i = 0; i < this.pdfSentance.length; i++) {
+      if (this.textstring == this.pdfSentance[i]["actualString"]) {
+        isData = true;
+      }
+    }
+    if (isData == false) {
+      let dbPath = "PDFSentance/Book1/" + this.page + "/" + this.sentanceNo;
+      const data = {
+        actual: this.textlist[0]["text"],
+        modified: this.everyele.join(" "),
+        actualString: this.textstring
+      }
+      this.db.object(dbPath).update(data);
+      this.getSavedData(null, 1);
+    }
+  }
+
+
+  deleteSentance(index: any) {
+    let dbPath = "PDFSentance/Book1/" + this.page + "/" + index;
+    console.log(dbPath);
+    this.db.object(dbPath).remove();
+    setTimeout(() => {
+      this.getSavedData(null, 1);
+    }, 200);
 
   }
+
+
+
 }
