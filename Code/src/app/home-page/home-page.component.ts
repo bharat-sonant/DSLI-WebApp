@@ -45,6 +45,7 @@ export class HomePageComponent {
   sentanceNo: any;
   pdfSentance: any[];
   prevPage: number;
+  deletedList:any[];
 
   constructor(public db: AngularFireDatabase) {
   }
@@ -72,6 +73,10 @@ export class HomePageComponent {
     // }
     // this.getData();
 
+  }
+  getDeleted()
+  {
+    
   }
 
   getData() {
@@ -307,8 +312,6 @@ export class HomePageComponent {
         }
       }
     }
-
-
   }
 
 
@@ -317,27 +320,43 @@ export class HomePageComponent {
     this.updatelist = [];
     this.updatelist1 = [];
     this.arrayList = [];
+    this.deletedList=[]
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == false) {
         let divVal = $('#txt' + i).html();
+        
         if (divVal != undefined) {
           if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
             this.arrayList.push(divVal);
-
-
+            console.log(this.arrayList);
           }
         }
+      }
+      else if(check.checked == true)
+      {
+        let divVal = $('#txt' + i).html();
+        this.deletedList.push(divVal);  
+        check.checked = false;
       }
       else {
         check.checked = false;
       }
     }
+    this.deleteSelected()
     this.everyele = this.arrayList;
     this.disableCheck()
-
+    
   }
 
+  deleteSelected()
+  {
+    let dbPath="deletedWords/";
+    for(let i=0;i<this.deletedList.length;i++)
+    {
+    this.db.list(dbPath).push(this.deletedList[i])
+  }
+}
 
   commonText() {
 
