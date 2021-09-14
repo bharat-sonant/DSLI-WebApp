@@ -116,7 +116,9 @@
 
                                     <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
                                     <input type="checkbox" style="float: right;" id="chk{{i}}">
+                                    <i class="fas fa-times" (click)="deleteFromDatabase(i)" style="float: right;display: none; cursor: pointer;" id="dlticon{{i}}"></i>
                                     <div id="txt{{i}}" contenteditable="true">{{item}}</div>
+                                  
                                 </div>
                             </div>
                         </ng-container>

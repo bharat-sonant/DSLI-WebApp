@@ -2,6 +2,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, OnInit, VERSION } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { data } from 'jquery';
+import { TouchSequence } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-home-page',
@@ -46,6 +47,7 @@ export class HomePageComponent {
   pdfSentance: any[];
   prevPage: number;
   deletedList: any[];
+  getDeletedList: any[];
 
   constructor(public db: AngularFireDatabase) {
   }
@@ -56,6 +58,7 @@ export class HomePageComponent {
   }
 
   ngOnInit() {
+    this.getDeleted();
     this.datalist = [];
     this.filterList = [];
     let windowHeight = $(window).height();
@@ -69,16 +72,30 @@ export class HomePageComponent {
     }
     this.getData();
 
-  }
-  getDeleted() {
-    let dbPath = "deletedWords/";
-    let instance = this.db.list(dbPath).valueChanges().subscribe(
-      data => {
-        instance.unsubscribe();
-        console.log(data);
-      })
+
 
   }
+
+
+  getDeleted() {
+    this.getDeletedList = [];
+    let dbPath = "deletedWords/";
+    let instance = this.db.object(dbPath).valueChanges().subscribe(
+      data => {
+        instance.unsubscribe();
+        if (data != null) {
+          let keyArray = Object.keys(data);
+          if (keyArray.length > 0) {
+            for (let i = 0; i < keyArray.length; i++) {
+              let key = keyArray[i];
+              let word = data[key];
+              this.getDeletedList.push({ key: key, word: word });
+            }
+          }
+        }
+      });
+  }
+
 
   getData() {
     this.MoCapList = [];
@@ -148,9 +165,7 @@ export class HomePageComponent {
     $('#savebtn').show();
     $('#blocksbtn').show();
     $('#txtSentance').show();
-    console.log(this.prevPage);
     this.page = Number($('#page').val());
-    console.log(this.page)
     if (this.prevPage != this.page) {
       this.textlist = [];
       this.arrayList = [];
@@ -208,6 +223,7 @@ export class HomePageComponent {
     this.fingerlist = [];
     this.uncommontextlist = [];
     this.everyele = [];
+
   }
 
   showTextBlocks() {
@@ -246,9 +262,22 @@ export class HomePageComponent {
 
     this.setColor();
     this.getSavedData(null, 1);
+    this.seticon();
+
 
   }
+  seticon() {
+    for (let i = 0; i < this.everyele.length; i++) {
+      for (let j = 0; j < this.getDeletedList.length; j++) {
 
+        if (this.everyele[i] == this.getDeletedList[j]["word"]) {
+          setTimeout(() => {
+            $("#dlticon" + i).show();
+          }, 200);
+        }
+      }
+    }
+  }
 
   setColor() {
 
@@ -512,6 +541,21 @@ export class HomePageComponent {
 
   }
 
-
+  deleteFromDatabase(index: any) {
+    $('#dlticon'+index).hide();
+    let word = this.everyele[index];
+    
+    let dlist = [];
+    for (let i = 0; i < this.getDeletedList.length; i++) {
+      if (this.getDeletedList[i]["word"] == word) {
+        this.db.object("deletedWords/" + this.getDeletedList[i]["key"]).remove();
+      }
+      else {
+        dlist.push({ index: this.getDeletedList[i]["key"], word: this.getDeletedList[i]["word"] });
+      }
+    }
+    this.getDeletedList=[];
+    this.getDeletedList = dlist;
+  }
 
 }
