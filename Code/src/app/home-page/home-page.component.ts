@@ -546,12 +546,16 @@ export class HomePageComponent {
     let word = this.everyele[index];
     
     let dlist = [];
+    
+    console.log(word)
     for (let i = 0; i < this.getDeletedList.length; i++) {
+     
       if (this.getDeletedList[i]["word"] == word) {
+        console.log(this.getDeletedList[i]["key"])
         this.db.object("deletedWords/" + this.getDeletedList[i]["key"]).remove();
       }
       else {
-        dlist.push({ index: this.getDeletedList[i]["key"], word: this.getDeletedList[i]["word"] });
+        dlist.push({ key:this.getDeletedList[i]["key"], word: this.getDeletedList[i]["word"] });
       }
     }
     this.getDeletedList=[];
