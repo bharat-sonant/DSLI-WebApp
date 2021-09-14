@@ -116,8 +116,9 @@
 
                                     <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
                                     <input type="checkbox" style="float: right;" id="chk{{i}}">
-                                    <i class="fas fa-times" (click)="deleteFromDatabase(i)" style="float: right;display: none; cursor: pointer;" id="dlticon{{i}}"></i>
-                                    <div id="txt{{i}}" contenteditable="true">{{item}}</div>
+                                    
+                                    <div id="txt{{i}}" contenteditable="true" style="margin-top: 8px;">{{item}}</div>
+                                    <i class="fas fa-times" (click)="deleteFromDatabase(i)" style="color: red;margin-bottom: 0px;float: right;display: none; cursor: pointer;" id="dlticon{{i}}"></i>
                                   
                                 </div>
                             </div>
@@ -157,7 +158,7 @@
 
                         <span style="font-weight: bold;"> {{svt.index}}-{{svt.actual}}</span><br/>
                         <span> {{svt.modified}}</span>
-                        <button (click)="deleteSentance(svt.index)"    class="btn"><i class="fa fa-trash"></i></button>
+                        <button (click)="deleteSentance(svt.index)"    class="btn"><i class="fa fa-trash" style="color: red;"></i></button>
                     </div>
                 </div>
             </div>

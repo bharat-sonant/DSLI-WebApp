@@ -4,6 +4,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { data } from 'jquery';
 import { TouchSequence } from 'selenium-webdriver';
 
+
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
