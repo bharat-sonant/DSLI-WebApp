@@ -49,6 +49,8 @@ export class HomePageComponent {
   prevPage: number;
   deletedList: any[];
   getDeletedList: any[];
+  DataList: any[];
+  getdataList: any[];
 
   constructor(public db: AngularFireDatabase) {
   }
@@ -71,10 +73,6 @@ export class HomePageComponent {
     if (this.savedtextlist == null) {
       this.savedtextlist = [];
     }
-    this.getData();
-
-
-
   }
 
 
@@ -97,21 +95,6 @@ export class HomePageComponent {
       });
   }
 
-
-  getData() {
-    this.MoCapList = [];
-    let dbPath = "MoCap";
-    let instance = this.db.list(dbPath).valueChanges().subscribe(
-      data => {
-        instance.unsubscribe();
-        if (data.length > 0) {
-          for (let i = 0; i < data.length; i++) {
-            this.MoCapList.push({ word: data[i]["Word"] });
-          }
-        }
-      }
-    );
-  }
 
 
   getSavedData(event: any, type: any) {
@@ -265,7 +248,6 @@ export class HomePageComponent {
     this.getSavedData(null, 1);
     this.seticon();
 
-
   }
   seticon() {
     for (let i = 0; i < this.everyele.length; i++) {
@@ -280,18 +262,47 @@ export class HomePageComponent {
     }
   }
 
+
+
   setColor() {
 
     for (let i = 0; i < this.everyele.length; i++) {
-      let wordDetail = this.MoCapList.find(item => item.word == this.everyele[i].trim());
-      if (wordDetail != undefined) {
-        if (wordDetail.word == this.everyele[i].trim()) {
-          setTimeout(() => {
-            $('#dragdiv' + i).css("background-color", "lightgreen");
-          }, 200);
+      let word = this.everyele[i].trim();
+      let dbPath = "WordFrequency/" + word;
+      let frequencyInstance = this.db.object(dbPath).valueChanges().subscribe(
+        data => {
+          frequencyInstance.unsubscribe();
 
+          if (data != null) {
+            if (data["isSignAvailable"] == "yes") {
+              $('#dragdiv' + i).css("background-color", "lightgreen");
+            }
+            let common = 0;
+            let unCommon = 0;
+            let finger = 0;
+            if (data["common"] != null) {
+              common = data["common"];
+            }
+            if (data["unCommon"] != null) {
+              unCommon = data["unCommon"];
+            }
+            if (data["finger"] != null) {
+              finger = data["finger"];
+            }
+       
+            if (common >= unCommon && common >= finger) {
+              $('#frequency' + i).html("common");
+            }
+            else if (unCommon >= common && unCommon >= finger) {
+              $('#frequency' + i).html("un common");
+            }
+           
+            else if (finger >= common && finger >= unCommon) {
+              $('#frequency' + i).html("finger");
+            }
+          }
         }
-      }
+      );
     }
   }
 
@@ -435,6 +446,7 @@ export class HomePageComponent {
           else if (type == "finger") {
             this.db.object(dbPath).update({ finger: count });
           }
+
         }
         else {
           let count = 1;
@@ -534,7 +546,6 @@ export class HomePageComponent {
 
   deleteSentance(index: any) {
     let dbPath = "PDFSentance/Book1/" + this.page + "/" + index;
-    console.log(dbPath);
     this.db.object(dbPath).remove();
     setTimeout(() => {
       this.getSavedData(null, 1);
@@ -543,24 +554,50 @@ export class HomePageComponent {
   }
 
   deleteFromDatabase(index: any) {
-    $('#dlticon'+index).hide();
+    $('#dlticon' + index).hide();
     let word = this.everyele[index];
-    
+
     let dlist = [];
-    
-    console.log(word)
+
     for (let i = 0; i < this.getDeletedList.length; i++) {
-     
+
       if (this.getDeletedList[i]["word"] == word) {
-        console.log(this.getDeletedList[i]["key"])
         this.db.object("deletedWords/" + this.getDeletedList[i]["key"]).remove();
       }
       else {
-        dlist.push({ key:this.getDeletedList[i]["key"], word: this.getDeletedList[i]["word"] });
+        dlist.push({ key: this.getDeletedList[i]["key"], word: this.getDeletedList[i]["word"] });
       }
     }
-    this.getDeletedList=[];
+    this.getDeletedList = [];
     this.getDeletedList = dlist;
   }
 
+
+
+  getCmnUnFin() {
+    this.DataList = [];
+    let dbPath = "WordFrequency/" + "/";
+    this.db.object(dbPath).valueChanges().subscribe(
+      data => {
+        if (data != null) {
+          this.DataList.push(data);
+          // for(let i=0;i<data.length;i++)
+          // {
+          // this.DataList.push({Data:data[i]});
+          // }
+
+          if (this.DataList != undefined) {
+            for (let i = 0; i < this.DataList.length; i++) {
+              console.log(this.DataList[i]["common"]);
+            }
+          }
+        }
+
+      })
+  }
+
+
 }
+
+
+
