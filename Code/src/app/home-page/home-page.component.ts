@@ -575,6 +575,7 @@ export class HomePageComponent {
 
 
   deleteSentance(index: any) {
+    this.setAlertMessage("success", "Sentence Deleted successfully!!");
     let dbPath = "PDFSentance/Book1/" + this.page + "/" + index;
     this.db.object(dbPath).remove();
     setTimeout(() => {
@@ -584,6 +585,7 @@ export class HomePageComponent {
   }
 
   deleteFromDatabase(index: any) {
+    this.setAlertMessage("success", "Remove word from DeletedWords!!");
     $('#dlticon' + index).hide();
     let word = this.everyele[index];
 
