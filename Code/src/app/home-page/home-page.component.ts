@@ -3,6 +3,7 @@ import { Component, OnInit, VERSION } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { data } from 'jquery';
 import { TouchSequence } from 'selenium-webdriver';
+import { ToastrService } from "ngx-toastr";
 
 
 @Component({
@@ -52,7 +53,7 @@ export class HomePageComponent {
   DataList: any[];
   getdataList: any[];
 
-  constructor(public db: AngularFireDatabase) {
+  constructor(public db: AngularFireDatabase, public toastr:ToastrService) {
   }
 
   drop(event: CdkDragDrop<any>) {
@@ -74,7 +75,22 @@ export class HomePageComponent {
       this.savedtextlist = [];
     }
   }
-
+  
+  setAlertMessage(type: any, message: any,) {
+    if (type == "error") {
+      this.toastr.error(message, "", {
+        timeOut: 5000,
+        toastClass: "alert alert-danger alert-with-icon",
+        positionClass: "toast-bottom-right",
+      });
+    } else {
+      this.toastr.error(message, "", {
+        timeOut: 5000,
+        toastClass: "alert alert-info",
+        positionClass: "toast-bottom-right",
+      });
+    }
+  }
 
   getDeleted() {
     this.getDeletedList = [];
@@ -202,6 +218,10 @@ export class HomePageComponent {
       $('#divRight').show();
       this.textstring = arrayList.join("");
 
+    }
+    else
+    {
+      this.setAlertMessage("error", "Select Text From Book");
     }
     this.commontextlist = [];
     this.fingerlist = [];
@@ -358,7 +378,6 @@ export class HomePageComponent {
 
 
   deleteText() {
-
     this.updatelist = [];
     this.updatelist1 = [];
     this.arrayList = [];
@@ -367,10 +386,10 @@ export class HomePageComponent {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == false) {
         let divVal = $('#txt' + i).html();
-
         if (divVal != undefined) {
           if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
             this.arrayList.push(divVal);
+            this.setAlertMessage("success","Deleted!!")
           }
         }
       }
@@ -378,6 +397,8 @@ export class HomePageComponent {
         let divVal = $('#txt' + i).html();
         this.deletedList.push(divVal);
         check.checked = false;
+        
+        
       }
       else {
         check.checked = false;
@@ -386,6 +407,11 @@ export class HomePageComponent {
     this.deleteSelected()
     this.everyele = this.arrayList;
     this.disableCheck()
+
+    
+   
+   
+     
 
   }
 
@@ -411,8 +437,9 @@ export class HomePageComponent {
         element.disabled = true;
         element.checked = false;
         this.saveData(divVal, "common");
-
+        this.setAlertMessage("success", "!!!Saved!!!");
       }
+      
     }
 
     for (let i = 0; i < this.everyele.length; i++) {
@@ -476,7 +503,9 @@ export class HomePageComponent {
         element.disabled = true;
         element.checked = false;
         this.saveData(divVal, "unCommon");
+        this.setAlertMessage("success", "!!!Saved!!!");
       }
+    
     }
     for (let i = 0; i < this.everyele.length; i++) {
       for (let j = 0; j <= this.uncommontextlist.length; j++) {
@@ -501,6 +530,7 @@ export class HomePageComponent {
         element.disabled = true;
         element.checked = false;
         this.saveData(divVal, "finger");
+        this.setAlertMessage("success", "!!!Saved!!!");
       }
 
     }
@@ -524,7 +554,7 @@ export class HomePageComponent {
   }
 
   savedData() {
-
+    this.setAlertMessage("success", "!!!Saved!!!");
     let isData = false;
     for (let i = 0; i < this.pdfSentance.length; i++) {
       if (this.textstring == this.pdfSentance[i]["actualString"]) {
