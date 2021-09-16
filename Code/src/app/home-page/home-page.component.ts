@@ -1,9 +1,8 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, OnInit, VERSION } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
-import { data } from 'jquery';
-import { TouchSequence } from 'selenium-webdriver';
 import { ToastrService } from "ngx-toastr";
+
 
 
 @Component({
@@ -52,13 +51,9 @@ export class HomePageComponent {
   getDeletedList: any[];
   DataList: any[];
   getdataList: any[];
+  delList: any[];
 
-  constructor(public db: AngularFireDatabase, public toastr:ToastrService) {
-  }
-
-  drop(event: CdkDragDrop<any>) {
-    this.everyele[event.previousContainer.data.index] = event.container.data.item
-    this.everyele[event.container.data.index] = event.previousContainer.data.item
+  constructor(public db: AngularFireDatabase, public toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -75,42 +70,12 @@ export class HomePageComponent {
       this.savedtextlist = [];
     }
   }
-  
-  setAlertMessage(type: any, message: any,) {
-    if (type == "error") {
-      this.toastr.error(message, "", {
-        timeOut: 5000,
-        toastClass: "alert alert-danger alert-with-icon",
-        positionClass: "toast-bottom-right",
-      });
-    } else {
-      this.toastr.error(message, "", {
-        timeOut: 5000,
-        toastClass: "alert alert-info",
-        positionClass: "toast-bottom-right",
-      });
-    }
-  }
 
-  getDeleted() {
-    this.getDeletedList = [];
-    let dbPath = "deletedWords/";
-    let instance = this.db.object(dbPath).valueChanges().subscribe(
-      data => {
-        instance.unsubscribe();
-        if (data != null) {
-          let keyArray = Object.keys(data);
-          if (keyArray.length > 0) {
-            for (let i = 0; i < keyArray.length; i++) {
-              let key = keyArray[i];
-              let word = data[key];
-              this.getDeletedList.push({ key: key, word: word });
-            }
-          }
-        }
-      });
-  }
 
+  drop(event: CdkDragDrop<any>) {
+    this.everyele[event.previousContainer.data.index] = event.container.data.item
+    this.everyele[event.container.data.index] = event.previousContainer.data.item
+  }
 
 
   getSavedData(event: any, type: any) {
@@ -122,7 +87,6 @@ export class HomePageComponent {
           instance.unsubscribe();
           if (data != null) {
             let keyArray = Object.keys(data);
-
             for (let i = 0; i < keyArray.length; i++) {
               let index = keyArray[i];
               this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"], actualString: data[index]["actualString"] });
@@ -158,6 +122,26 @@ export class HomePageComponent {
         );
       }
     }
+  }
+
+
+  getDeleted() {
+    this.getDeletedList = [];
+    let dbPath = "deletedWords/";
+    let instance = this.db.object(dbPath).valueChanges().subscribe(
+      data => {
+        instance.unsubscribe();
+        if (data != null) {
+          let keyArray = Object.keys(data);
+          if (keyArray.length > 0) {
+            for (let i = 0; i < keyArray.length; i++) {
+              let key = keyArray[i];
+              let word = data[key];
+              this.getDeletedList.push({ key: key, word: word });
+            }
+          }
+        }
+      });
   }
 
 
@@ -205,7 +189,6 @@ export class HomePageComponent {
             this.sentanceNo = 1;
           }
         });
-
     }
     this.textlist = []
     let selection = document.getSelection();
@@ -219,16 +202,15 @@ export class HomePageComponent {
       this.textstring = arrayList.join("");
 
     }
-    else
-    {
+    else {
       this.setAlertMessage("error", "Select Text From Book");
     }
     this.commontextlist = [];
     this.fingerlist = [];
     this.uncommontextlist = [];
     this.everyele = [];
-
   }
+
 
   showTextBlocks() {
     $('#resetbtn').show();
@@ -236,9 +218,6 @@ export class HomePageComponent {
     $('#commonbtn').show();
     $('#uncommonbtn').show();
     $('#fingerbtn').show();
-    // $('#cmntextdiv').show();
-    // $('#uncmntextdiv').show();
-    // $('#fngtextdiv').show();
     $('#clicktxt').show();
     this.everyele = [];
     this.arrayList1 = [];
@@ -248,11 +227,9 @@ export class HomePageComponent {
     this.uncommontextlist = [];
     let divval = $('#txtSentance').val();
     arrayList = divval.toString().split(" ");
-
     for (let i = 0; i < arrayList.length; i++) {
       if (arrayList[i].trim() != "") {
         this.everyele.push(arrayList[i].trim());
-
       }
     }
     if (this.everyele.length > 0) {
@@ -263,109 +240,16 @@ export class HomePageComponent {
         }
       }
     }
-
     this.setColor();
     this.getSavedData(null, 1);
     this.seticon();
-
-  }
-  seticon() {
-    for (let i = 0; i < this.everyele.length; i++) {
-      for (let j = 0; j < this.getDeletedList.length; j++) {
-
-        if (this.everyele[i] == this.getDeletedList[j]["word"]) {
-          setTimeout(() => {
-            $("#dlticon" + i).show();
-          }, 200);
-        }
-      }
-    }
   }
 
-
-
-  setColor() {
-
-    for (let i = 0; i < this.everyele.length; i++) {
-      let word = this.everyele[i].trim();
-      let dbPath = "WordFrequency/" + word;
-      let frequencyInstance = this.db.object(dbPath).valueChanges().subscribe(
-        data => {
-          frequencyInstance.unsubscribe();
-
-          if (data != null) {
-            if (data["isSignAvailable"] == "yes") {
-              $('#dragdiv' + i).css("background-color", "lightgreen");
-            }
-            let common = 0;
-            let unCommon = 0;
-            let finger = 0;
-            if (data["common"] != null) {
-              common = data["common"];
-            }
-            if (data["unCommon"] != null) {
-              unCommon = data["unCommon"];
-            }
-            if (data["finger"] != null) {
-              finger = data["finger"];
-            }
-       
-            if (common >= unCommon && common >= finger) {
-              $('#frequency' + i).html("common");
-            }
-            else if (unCommon >= common && unCommon >= finger) {
-              $('#frequency' + i).html("un common");
-            }
-           
-            else if (finger >= common && finger >= unCommon) {
-              $('#frequency' + i).html("finger");
-            }
-          }
-        }
-      );
-    }
-  }
-
-  disableCheck() {
-    for (let i = 0; i < this.everyele.length; i++) {
-      for (let j = 0; j < this.commontextlist.length; j++) {
-        if (this.everyele[i] == this.commontextlist[j]) {
-          let element = <HTMLInputElement>document.getElementById("chk" + i);
-          if (element.checked! = true) {
-            element.disabled = true;
-            element.checked = false;
-
-          }
-        }
-      }
-      for (let j = 0; j < this.uncommontextlist.length; j++) {
-        if (this.everyele[i] == this.uncommontextlist[j]) {
-          let element = <HTMLInputElement>document.getElementById("chk" + i);
-          if (element.checked! = true) {
-            element.disabled = true;
-            element.checked = false;
-
-          }
-        }
-      }
-      for (let j = 0; j < this.fingerlist.length; j++) {
-        if (this.everyele[i] == this.fingerlist[j]) {
-          let element = <HTMLInputElement>document.getElementById("chk" + i);
-          if (element.checked! = true) {
-            element.disabled = true;
-            element.checked = false;
-
-          }
-        }
-      }
-    }
-  }
 
   editText(index: any) {
     this.editTextList = []
     document.getElementById("txt" + index).addEventListener("input", function () {
     }, false);
-
     for (let i = 0; i <= this.everyele.length; i++) {
       let divVal = $('#txt' + i).html();
       if (divVal != undefined) {
@@ -377,57 +261,25 @@ export class HomePageComponent {
   }
 
 
-  deleteText() {
-    this.updatelist = [];
-    this.updatelist1 = [];
-    this.arrayList = [];
-    this.deletedList = []
-    for (let i = 0; i < this.everyele.length; i++) {
-      let check = <HTMLInputElement>document.getElementById("chk" + i);
-      if (check.checked == false) {
-        let divVal = $('#txt' + i).html();
-        if (divVal != undefined) {
-          if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
-            this.arrayList.push(divVal);
-            this.setAlertMessage("success","Deleted!!")
-          }
-        }
-      }
-      else if (check.checked == true) {
-        let divVal = $('#txt' + i).html();
-        this.deletedList.push(divVal);
-        check.checked = false;
-        
-        
-      }
-      else {
-        check.checked = false;
-      }
-    }
-    this.deleteSelected()
-    this.everyele = this.arrayList;
-    this.disableCheck()
-
-    
-   
-   
-     
-
-  }
-
-  deleteSelected() {
-    this.getDeleted();
-
-    let dbPath = "deletedWords/";
-    for (let i = 0; i < this.deletedList.length; i++) {
-      this.db.list(dbPath).push(this.deletedList[i])
+  setAlertMessage(type: any, message: any,) {
+    if (type == "error") {
+      this.toastr.error(message, "", {
+        timeOut: 4000,
+        toastClass: "alert alert-danger alert-with-icon",
+        positionClass: "toast-bottom-right",
+      });
+    } else {
+      this.toastr.error(message, "", {
+        timeOut: 4000,
+        toastClass: "alert alert-info",
+        positionClass: "toast-bottom-right",
+      });
     }
   }
+
 
   commonText() {
-
     this.commontextlist = [];
-
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
@@ -436,12 +288,10 @@ export class HomePageComponent {
         let element = <HTMLInputElement>document.getElementById("chk" + i);
         element.disabled = true;
         element.checked = false;
-        this.saveData(divVal, "common");
+        this.saveData(divVal.toLowerCase(), "common");
         this.setAlertMessage("success", "!!!Saved!!!");
       }
-      
     }
-
     for (let i = 0; i < this.everyele.length; i++) {
       for (let j = 0; j <= this.commontextlist.length; j++) {
         if (this.everyele[i] == this.commontextlist[j]) {
@@ -449,12 +299,62 @@ export class HomePageComponent {
           element.disabled = true;
           element.checked = false;
         }
-
       }
     }
-
-
   }
+
+
+  uncommonText() {
+    this.uncommontextlist = [];
+    for (let i = 0; i < this.everyele.length; i++) {
+      let check = <HTMLInputElement>document.getElementById("chk" + i);
+      if (check.checked == true) {
+        let divVal = $('#txt' + i).html();
+        this.uncommontextlist.push(divVal);
+        let element = <HTMLInputElement>document.getElementById("chk" + i);
+        element.disabled = true;
+        element.checked = false;
+        this.saveData(divVal.toLowerCase(), "unCommon");
+        this.setAlertMessage("success", "!!!Saved!!!");
+      }
+    }
+    for (let i = 0; i < this.everyele.length; i++) {
+      for (let j = 0; j <= this.uncommontextlist.length; j++) {
+        if (this.everyele[i] == this.uncommontextlist[j]) {
+          let element = <HTMLInputElement>document.getElementById("chk" + i);
+          element.disabled = true;
+          element.checked = false;
+        }
+      }
+    }
+  }
+
+
+  finger() {
+    this.fingerlist = [];
+    for (let i = 0; i < this.everyele.length; i++) {
+      let check = <HTMLInputElement>document.getElementById("chk" + i);
+      if (check.checked == true) {
+        let divVal = $('#txt' + i).html();
+        this.fingerlist.push(divVal);
+        let element = <HTMLInputElement>document.getElementById("chk" + i);
+        element.disabled = true;
+        element.checked = false;
+        this.saveData(divVal.toLowerCase(), "finger");
+        this.setAlertMessage("success", "!!!Saved!!!");
+      }
+    }
+    for (let i = 0; i < this.everyele.length; i++) {
+      for (let j = 0; j <= this.fingerlist.length; j++) {
+        if (this.everyele[i] == this.fingerlist[j]) {
+          let element = <HTMLInputElement>document.getElementById("chk" + i);
+          element.disabled = true;
+          element.checked = false;
+        }
+      }
+    }
+  }
+
 
   saveData(word: any, type: any) {
     let dbPath = "WordFrequency/" + word + "/" + type;
@@ -492,84 +392,182 @@ export class HomePageComponent {
     );
   }
 
-  uncommonText() {
-    this.uncommontextlist = [];
+
+  savedData() {
+    //  for(let i=0;i<this.everyele.length;i++)
+    //  {
+    //   console.log(this.getDeletedList["word"]);
+    //  let deleselect=this.getDeletedList.find(item=>this.everyele[i]==this.getDeletedList["word"]);
+    //  }
+
+
+    let modified = "";
     for (let i = 0; i < this.everyele.length; i++) {
-      let check = <HTMLInputElement>document.getElementById("chk" + i);
-      if (check.checked == true) {
-        let divVal = $('#txt' + i).html();
-        this.uncommontextlist.push(divVal);
-        let element = <HTMLInputElement>document.getElementById("chk" + i);
-        element.disabled = true;
-        element.checked = false;
-        this.saveData(divVal, "unCommon");
-        this.setAlertMessage("success", "!!!Saved!!!");
+      let word = this.everyele[i].trim();
+      let deletedWord = this.getDeletedList.find(item => item.word == word);
+      if (deletedWord == undefined) {
+        modified = modified + " " + word;
       }
-    
     }
+
+    let isData = false;
+    for (let i = 0; i < this.pdfSentance.length; i++) {
+      if (this.textstring == this.pdfSentance[i]["actualString"]) {
+        isData = true;
+        let dbPath = "PDFSentance/Book1/" + this.page + "/" + this.pdfSentance[i]["index"];
+       
+        this.db.object(dbPath).update({modified:modified});
+       
+        
+      }
+    }
+    if (isData == false) {
+      this.setAlertMessage("success", "!!!Saved!!!");
+      let dbPath = "PDFSentance/Book1/" + this.page + "/" + this.sentanceNo;
+
+      const data = {
+        actual: this.textlist[0]["text"],
+        modified: modified,
+        actualString: this.textstring
+      }
+      this.db.object(dbPath).update(data);
+    }
+    
+    this.getSavedData(null, 1);
+  }
+
+
+  seticon() {
     for (let i = 0; i < this.everyele.length; i++) {
-      for (let j = 0; j <= this.uncommontextlist.length; j++) {
-        if (this.everyele[i] == this.uncommontextlist[j]) {
-          let element = <HTMLInputElement>document.getElementById("chk" + i);
-          element.disabled = true;
-          element.checked = false;
+      for (let j = 0; j < this.getDeletedList.length; j++) {
+        if (this.everyele[i] == this.getDeletedList[j]["word"]) {
+          setTimeout(() => {
+            $("#dlticon" + i).show();
+          }, 200);
         }
       }
     }
   }
 
 
-  finger() {
-    this.fingerlist = [];
+  setColor() {
     for (let i = 0; i < this.everyele.length; i++) {
-      let check = <HTMLInputElement>document.getElementById("chk" + i);
-      if (check.checked == true) {
-        let divVal = $('#txt' + i).html();
-        this.fingerlist.push(divVal);
-        let element = <HTMLInputElement>document.getElementById("chk" + i);
-        element.disabled = true;
-        element.checked = false;
-        this.saveData(divVal, "finger");
-        this.setAlertMessage("success", "!!!Saved!!!");
-      }
+      let word = this.everyele[i].trim();
+      let dbPath = "WordFrequency/" + word.toLowerCase();
+      let frequencyInstance = this.db.object(dbPath).valueChanges().subscribe(
+        data => {
+          frequencyInstance.unsubscribe();
+          if (data != null) {
+            if (data["isSignAvailable"] == "yes") {
+              $('#dragdiv' + i).css("background-color", "lightgreen");
+            }
+            let common = 0;
+            let unCommon = 0;
+            let finger = 0;
+            if (data["common"] != null) {
+              common = data["common"];
+            }
+            if (data["unCommon"] != null) {
+              unCommon = data["unCommon"];
+            }
+            if (data["finger"] != null) {
+              finger = data["finger"];
+            }
 
+            if (common >= unCommon && common >= finger) {
+              $('#frequency' + i).html("common");
+            }
+            else if (unCommon >= common && unCommon >= finger) {
+              $('#frequency' + i).html("un common");
+            }
+
+            else if (finger >= common && finger >= unCommon) {
+              $('#frequency' + i).html("finger");
+            }
+          }
+        }
+      );
     }
+  }
+
+
+  disableCheck() {
     for (let i = 0; i < this.everyele.length; i++) {
-      for (let j = 0; j <= this.fingerlist.length; j++) {
+      for (let j = 0; j < this.commontextlist.length; j++) {
+        if (this.everyele[i] == this.commontextlist[j]) {
+          let element = <HTMLInputElement>document.getElementById("chk" + i);
+          if (element.checked! = true) {
+            element.disabled = true;
+            element.checked = false;
+          }
+        }
+      }
+      for (let j = 0; j < this.uncommontextlist.length; j++) {
+        if (this.everyele[i] == this.uncommontextlist[j]) {
+          let element = <HTMLInputElement>document.getElementById("chk" + i);
+          if (element.checked! = true) {
+            element.disabled = true;
+            element.checked = false;
+          }
+        }
+      }
+      for (let j = 0; j < this.fingerlist.length; j++) {
         if (this.everyele[i] == this.fingerlist[j]) {
           let element = <HTMLInputElement>document.getElementById("chk" + i);
-          element.disabled = true;
-          element.checked = false;
-        }
+          if (element.checked! = true) {
+            element.disabled = true;
+            element.checked = false;
 
+          }
+        }
       }
     }
   }
 
 
   reset() {
-
+    this.setAlertMessage("success", "Reset successfully!!");
     this.showTextBlocks();
-
   }
 
-  savedData() {
-    this.setAlertMessage("success", "!!!Saved!!!");
-    let isData = false;
-    for (let i = 0; i < this.pdfSentance.length; i++) {
-      if (this.textstring == this.pdfSentance[i]["actualString"]) {
-        isData = true;
+
+  deleteText() {
+    this.updatelist = [];
+    this.updatelist1 = [];
+    this.arrayList = [];
+    this.deletedList = []
+    for (let i = 0; i < this.everyele.length; i++) {
+      let check = <HTMLInputElement>document.getElementById("chk" + i);
+      if (check.checked == false) {
+        let divVal = $('#txt' + i).html();
+        if (divVal != undefined) {
+          if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
+            this.arrayList.push(divVal);
+
+          }
+        }
+      }
+      else if (check.checked == true) {
+        let divVal = $('#txt' + i).html();
+        this.deletedList.push(divVal);
+        check.checked = false;
+        this.setAlertMessage("success", "Deleted!!")
+      }
+      else {
+        check.checked = false;
       }
     }
-    if (isData == false) {
-      let dbPath = "PDFSentance/Book1/" + this.page + "/" + this.sentanceNo;
-      const data = {
-        actual: this.textlist[0]["text"],
-        modified: this.everyele.join(" "),
-        actualString: this.textstring
-      }
-      this.db.object(dbPath).update(data);
-      this.getSavedData(null, 1);
+    this.deleteSelected()
+    this.everyele = this.arrayList;
+    this.disableCheck()
+  }
+
+
+  deleteSelected() {
+    this.getDeleted();
+    let dbPath = "deletedWords/";
+    for (let i = 0; i < this.deletedList.length; i++) {
+      this.db.list(dbPath).push(this.deletedList[i])
     }
   }
 
@@ -581,18 +579,15 @@ export class HomePageComponent {
     setTimeout(() => {
       this.getSavedData(null, 1);
     }, 200);
-
   }
+
 
   deleteFromDatabase(index: any) {
     this.setAlertMessage("success", "Remove word from DeletedWords!!");
     $('#dlticon' + index).hide();
     let word = this.everyele[index];
-
     let dlist = [];
-
     for (let i = 0; i < this.getDeletedList.length; i++) {
-
       if (this.getDeletedList[i]["word"] == word) {
         this.db.object("deletedWords/" + this.getDeletedList[i]["key"]).remove();
       }
@@ -604,29 +599,6 @@ export class HomePageComponent {
     this.getDeletedList = dlist;
   }
 
-
-
-  getCmnUnFin() {
-    this.DataList = [];
-    let dbPath = "WordFrequency/" + "/";
-    this.db.object(dbPath).valueChanges().subscribe(
-      data => {
-        if (data != null) {
-          this.DataList.push(data);
-          // for(let i=0;i<data.length;i++)
-          // {
-          // this.DataList.push({Data:data[i]});
-          // }
-
-          if (this.DataList != undefined) {
-            for (let i = 0; i < this.DataList.length; i++) {
-              console.log(this.DataList[i]["common"]);
-            }
-          }
-        }
-
-      })
-  }
 
 
 }
