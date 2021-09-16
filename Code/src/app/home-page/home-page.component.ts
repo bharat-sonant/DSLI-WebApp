@@ -247,6 +247,7 @@ export class HomePageComponent {
 
 
   editText(index: any) {
+
     this.editTextList = []
     document.getElementById("txt" + index).addEventListener("input", function () {
     }, false);
@@ -285,10 +286,12 @@ export class HomePageComponent {
       if (check.checked == true) {
         let divVal = $('#txt' + i).html();
         this.commontextlist.push(divVal);
-        let element = <HTMLInputElement>document.getElementById("chk" + i);
-        element.disabled = true;
-        element.checked = false;
+        // let element = <HTMLInputElement>document.getElementById("chk" + i);
+        // element.disabled = true;
+        // element.checked = false;
         this.saveData(divVal.toLowerCase(), "common");
+        $('#frequency' + i).html("common");
+       // this.getWordFrequency(i, divVal.toLowerCase());
         this.setAlertMessage("success", "!!!Saved!!!");
       }
     }
@@ -301,6 +304,48 @@ export class HomePageComponent {
         }
       }
     }
+
+  }
+
+  getWordFrequency(index: any, word: any) {
+    console.log( $('#frequency' + index));
+     setTimeout(() => {
+      let dbPath = "WordFrequency/" + word.toLowerCase();
+      let frequencyInstance = this.db.object(dbPath).valueChanges().subscribe(
+        data => {
+          frequencyInstance.unsubscribe();
+          console.log(data);
+          if (data != null) {
+            let common = 0;
+            let unCommon = 0;
+            let finger = 0;
+            if (data["common"] != null) {
+              common = data["common"];
+            }
+            if (data["unCommon"] != null) {
+              unCommon = data["unCommon"];
+            }
+            if (data["finger"] != null) {
+              finger = data["finger"];
+            }
+           
+            if (common >= unCommon && common >= finger) {
+              $('#frequency' + index).html("common");
+            }
+            else if (unCommon >= common && unCommon >= finger) {
+              $('#frequency' + index).html("un common");
+            }
+
+            else if (finger >= common && finger >= unCommon) {
+              $('#frequency' + index).html("finger");
+            }
+          }
+        }
+      );
+     }, 1000);
+      
+    
+
   }
 
 
@@ -315,6 +360,7 @@ export class HomePageComponent {
         element.disabled = true;
         element.checked = false;
         this.saveData(divVal.toLowerCase(), "unCommon");
+        $('#frequency' + i).html("un common");
         this.setAlertMessage("success", "!!!Saved!!!");
       }
     }
@@ -341,6 +387,7 @@ export class HomePageComponent {
         element.disabled = true;
         element.checked = false;
         this.saveData(divVal.toLowerCase(), "finger");
+        $('#frequency' + i).html("finger");
         this.setAlertMessage("success", "!!!Saved!!!");
       }
     }
@@ -415,10 +462,10 @@ export class HomePageComponent {
       if (this.textstring == this.pdfSentance[i]["actualString"]) {
         isData = true;
         let dbPath = "PDFSentance/Book1/" + this.page + "/" + this.pdfSentance[i]["index"];
-       
-        this.db.object(dbPath).update({modified:modified});
-       
-        
+
+        this.db.object(dbPath).update({ modified: modified });
+
+
       }
     }
     if (isData == false) {
@@ -432,7 +479,7 @@ export class HomePageComponent {
       }
       this.db.object(dbPath).update(data);
     }
-    
+
     this.getSavedData(null, 1);
   }
 
