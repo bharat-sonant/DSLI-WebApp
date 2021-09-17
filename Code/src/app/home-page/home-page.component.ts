@@ -146,6 +146,7 @@ export class HomePageComponent {
 
 
   selectedText() {
+    
     $('#savebtn').show();
     $('#blocksbtn').show();
     $('#txtSentance').show();
@@ -260,7 +261,20 @@ export class HomePageComponent {
         }
       }
       this.everyele=this.editTextList;
+      let word=this.everyele[i];
+      let dbPath = "WordFrequency/" + word+"/isSignAvailable";
+      this.db.object(dbPath).valueChanges().subscribe(
+        data=>{
+             
+              if(data!=null)
+              {
+                $('#dragdiv' + i).addClass("inner sign-found");
+
+              }
+        }
+      )
     }
+    
   }
 
 
