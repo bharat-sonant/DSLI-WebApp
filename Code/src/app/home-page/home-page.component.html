@@ -106,7 +106,7 @@
 
                     <div #contenedor class="categories" style="width:100% ;" cdkDropListGroup>
                         <ng-container *ngFor="let item of everyele;let i=index" style="display: flex;">
-                            <div class="categories-item" cdkDropList (click)="editText(i)"
+                            <div class="categories-item" cdkDropList 
                                 cdkDropListOrientation="horizontal" [cdkDropListData]="{item:item,index:i}"
                                 (cdkDropListDropped)="drop($event)">
                                 <div class="inner" cdkDrag oncontextmenu="return false" id="dragdiv{{i}}">
@@ -114,7 +114,7 @@
                                     <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
                                     <input type="checkbox" style="float: right;" id="chk{{i}}">
                                     
-                                    <div id="txt{{i}}" contenteditable="true" style="margin-top: 8px;">{{item}}</div>
+                                    <div id="txt{{i}}" contenteditable="true" style="margin-top: 8px;" (blur)="editText(i)">{{item}}</div>
                                     <i class="fas fa-times" (click)="deleteFromDatabase(i)" style="color: red;margin-bottom: 0px;float: right;display: none; cursor: pointer; margin-right: -3px; margin-bottom: 5px;" id="dlticon{{i}}"></i>
                                     <p id="frequency{{i}}" style="float: left;margin-bottom: 0px; font-size: 10px; margin-left: 5px; color: green;"></p>
                                 </div>
