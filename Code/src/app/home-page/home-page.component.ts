@@ -256,9 +256,10 @@ export class HomePageComponent {
       if (divVal != undefined) {
         if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
           this.editTextList.push(divVal);
-          console.log(this.editTextList)
+          console.log(this.editTextList);
         }
       }
+      this.everyele=this.editTextList;
     }
   }
 
