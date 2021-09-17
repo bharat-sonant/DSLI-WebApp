@@ -162,7 +162,7 @@ export class HomePageComponent {
             let keyArray = Object.keys(data);
             for (let i = 0; i < keyArray.length; i++) {
               let index = keyArray[i];
-              this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"], actualString: data[index]["actualString"] });
+              this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"] });
             }
             this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
           }
@@ -181,7 +181,7 @@ export class HomePageComponent {
             let keyArray = Object.keys(data);
             for (let i = 0; i < keyArray.length; i++) {
               let index = keyArray[i];
-              this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"], actualString: data[index]["actualString"] });
+              this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"] });
             }
             this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
           }
@@ -256,6 +256,7 @@ export class HomePageComponent {
       if (divVal != undefined) {
         if (!divVal.toString().includes("&nbsp;") && divVal != "" && !divVal.toString().includes("<br>")) {
           this.editTextList.push(divVal);
+          console.log(this.editTextList)
         }
       }
     }
@@ -396,13 +397,12 @@ export class HomePageComponent {
 
     let isData = false;
     for (let i = 0; i < this.pdfSentance.length; i++) {
-      if (this.textstring == this.pdfSentance[i]["actualString"]) {
+      console.log(this.pdfSentance[i]["actual"].trim())
+      let arraylist=this.pdfSentance[i]["actual"].split(" ")
+      if (this.textstring == arraylist.join("")) {
         isData = true;
         let dbPath = "PDFSentance/Book1/" + this.page + "/" + this.pdfSentance[i]["index"];
-
         this.db.object(dbPath).update({ modified: modified });
-
-
       }
     }
     if (isData == false) {
@@ -414,7 +414,7 @@ export class HomePageComponent {
         modified: modified,
         actualString: this.textstring
       }
-      this.db.object(dbPath).update(data);
+       this.db.object(dbPath).update(data);
     }
 
     this.getSavedData(null, 1);
