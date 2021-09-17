@@ -104,9 +104,6 @@
                         Into Blocks</button>
 
 
-                    <p id="clicktxt" style="display: none;">For <b>edit</b> text please <b>Right click</b> on the <b> text</b> 
-                    </p>
-
                     <div #contenedor class="categories" style="width:100% ;" cdkDropListGroup>
                         <ng-container *ngFor="let item of everyele;let i=index" style="display: flex;">
                             <div class="categories-item" cdkDropList (click)="editText(i)"
@@ -153,7 +150,7 @@
                         <label><b>Finger</b></label><br />
                         {{fingerlist}}
                     </div>
-                    <label><b>Saved Data</b></label><br />
+
                     <div style="background-color: lightgray; margin-top: 10px;" *ngFor="let svt of pdfSentance;">
 
                         <span style="font-weight: bold;"> {{svt.index}}-{{svt.actual}}</span><br/>
