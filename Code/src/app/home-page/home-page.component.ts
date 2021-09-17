@@ -286,22 +286,14 @@ export class HomePageComponent {
       if (check.checked == true) {
         let divVal = $('#txt' + i).html();
         this.commontextlist.push(divVal);
+        let element = <HTMLInputElement>document.getElementById("chk" + i);
+        element.checked = false;
         this.saveData(divVal.toLowerCase(), "common");
         $('#frequency' + i).html("common");
       
         this.setAlertMessage("success", "!!!Saved!!!");
       }
     }
-    for (let i = 0; i < this.everyele.length; i++) {
-      for (let j = 0; j <= this.commontextlist.length; j++) {
-        if (this.everyele[i] == this.commontextlist[j]) {
-          let element = <HTMLInputElement>document.getElementById("chk" + i);
-          element.disabled = true;
-          element.checked = false;
-        }
-      }
-    }
-
   }
 
 
@@ -313,22 +305,13 @@ export class HomePageComponent {
         let divVal = $('#txt' + i).html();
         this.uncommontextlist.push(divVal);
         let element = <HTMLInputElement>document.getElementById("chk" + i);
-        element.disabled = true;
         element.checked = false;
         this.saveData(divVal.toLowerCase(), "unCommon");
         $('#frequency' + i).html("un common");
         this.setAlertMessage("success", "!!!Saved!!!");
       }
     }
-    for (let i = 0; i < this.everyele.length; i++) {
-      for (let j = 0; j <= this.uncommontextlist.length; j++) {
-        if (this.everyele[i] == this.uncommontextlist[j]) {
-          let element = <HTMLInputElement>document.getElementById("chk" + i);
-          element.disabled = true;
-          element.checked = false;
-        }
-      }
-    }
+  
   }
 
 
@@ -338,22 +321,12 @@ export class HomePageComponent {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
         let divVal = $('#txt' + i).html();
-        this.fingerlist.push(divVal);
         let element = <HTMLInputElement>document.getElementById("chk" + i);
-        element.disabled = true;
         element.checked = false;
+        this.fingerlist.push(divVal);
         this.saveData(divVal.toLowerCase(), "finger");
         $('#frequency' + i).html("finger");
         this.setAlertMessage("success", "!!!Saved!!!");
-      }
-    }
-    for (let i = 0; i < this.everyele.length; i++) {
-      for (let j = 0; j <= this.fingerlist.length; j++) {
-        if (this.everyele[i] == this.fingerlist[j]) {
-          let element = <HTMLInputElement>document.getElementById("chk" + i);
-          element.disabled = true;
-          element.checked = false;
-        }
       }
     }
   }
