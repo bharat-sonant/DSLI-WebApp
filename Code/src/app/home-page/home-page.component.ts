@@ -89,7 +89,7 @@ export class HomePageComponent {
             let keyArray = Object.keys(data);
             for (let i = 0; i < keyArray.length; i++) {
               let index = keyArray[i];
-              this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"], actualString: data[index]["actualString"] });
+              this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"] });
             }
             this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
           }
@@ -111,7 +111,7 @@ export class HomePageComponent {
               let keyArray = Object.keys(data);
               for (let i = 0; i < keyArray.length; i++) {
                 let index = keyArray[i];
-                this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"], actualString: data[index]["actualString"] });
+                this.pdfSentance.push({ index: index, actual: data[index]["actual"], modified: data[index]["modified"] });
               }
               this.sentanceNo = Number(this.pdfSentance[this.pdfSentance.length - 1]["index"]) + 1;
             }
@@ -284,14 +284,17 @@ export class HomePageComponent {
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
+        check.checked=false;
         let divVal = $('#txt' + i).html();
+        let element = <HTMLElement>document.getElementById("dragdiv" + i);
+        console.log(element.className);
+        if (element.className != "inner sign-found") {
         this.commontextlist.push(divVal);
-        let element = <HTMLInputElement>document.getElementById("chk" + i);
-        element.checked = false;
         this.saveData(divVal.toLowerCase(), "common");
         $('#frequency' + i).html("common");
-      
         this.setAlertMessage("success", "!!!Saved!!!");
+        }
+       
       }
     }
   }
@@ -302,16 +305,23 @@ export class HomePageComponent {
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
+        check.checked = false;
         let divVal = $('#txt' + i).html();
-        this.uncommontextlist.push(divVal);
-        let element = <HTMLInputElement>document.getElementById("chk" + i);
-        element.checked = false;
-        this.saveData(divVal.toLowerCase(), "unCommon");
-        $('#frequency' + i).html("un common");
-        this.setAlertMessage("success", "!!!Saved!!!");
+
+        let element = <HTMLElement>document.getElementById("dragdiv" + i);
+        console.log(element.className);
+        if (element.className != "inner sign-found") {
+          this.uncommontextlist.push(divVal);
+          this.saveData(divVal.toLowerCase(), "unCommon");
+          $('#frequency' + i).html("un common");
+          this.setAlertMessage("success", "!!!Saved!!!");
+        }
+
+
+
       }
     }
-  
+
   }
 
 
@@ -320,13 +330,18 @@ export class HomePageComponent {
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
+        check.checked=false;
         let divVal = $('#txt' + i).html();
-        let element = <HTMLInputElement>document.getElementById("chk" + i);
-        element.checked = false;
-        this.fingerlist.push(divVal);
-        this.saveData(divVal.toLowerCase(), "finger");
-        $('#frequency' + i).html("finger");
-        this.setAlertMessage("success", "!!!Saved!!!");
+        let element = <HTMLElement>document.getElementById("dragdiv" + i);
+        console.log(element.className);
+        if (element.className != "inner sign-found") {
+          this.fingerlist.push(divVal);
+          this.saveData(divVal.toLowerCase(), "finger");
+          $('#frequency' + i).html("finger");
+          this.setAlertMessage("success", "!!!Saved!!!");
+        }
+
+        
       }
     }
   }
@@ -370,13 +385,6 @@ export class HomePageComponent {
 
 
   savedData() {
-    //  for(let i=0;i<this.everyele.length;i++)
-    //  {
-    //   console.log(this.getDeletedList["word"]);
-    //  let deleselect=this.getDeletedList.find(item=>this.everyele[i]==this.getDeletedList["word"]);
-    //  }
-
-
     let modified = "";
     for (let i = 0; i < this.everyele.length; i++) {
       let word = this.everyele[i].trim();
@@ -435,30 +443,37 @@ export class HomePageComponent {
           frequencyInstance.unsubscribe();
           if (data != null) {
             if (data["isSignAvailable"] == "yes") {
-              $('#dragdiv' + i).css("background-color", "lightgreen");
+              let element = <HTMLElement>document.getElementById("dragdiv" + i);
+              let className = element.className;
+              if (className != null) {
+                $("#dragdiv" + i).removeClass(className);
+              }
+              $('#dragdiv' + i).addClass("inner sign-found");
             }
-            let common = 0;
-            let unCommon = 0;
-            let finger = 0;
-            if (data["common"] != null) {
-              common = data["common"];
-            }
-            if (data["unCommon"] != null) {
-              unCommon = data["unCommon"];
-            }
-            if (data["finger"] != null) {
-              finger = data["finger"];
-            }
+            else {
+              let common = 0;
+              let unCommon = 0;
+              let finger = 0;
+              if (data["common"] != null) {
+                common = data["common"];
+              }
+              if (data["unCommon"] != null) {
+                unCommon = data["unCommon"];
+              }
+              if (data["finger"] != null) {
+                finger = data["finger"];
+              }
 
-            if (common >= unCommon && common >= finger) {
-              $('#frequency' + i).html("common");
-            }
-            else if (unCommon >= common && unCommon >= finger) {
-              $('#frequency' + i).html("un common");
-            }
+              if (common >= unCommon && common >= finger) {
+                $('#frequency' + i).html("common");
+              }
+              else if (unCommon >= common && unCommon >= finger) {
+                $('#frequency' + i).html("un common");
+              }
 
-            else if (finger >= common && finger >= unCommon) {
-              $('#frequency' + i).html("finger");
+              else if (finger >= common && finger >= unCommon) {
+                $('#frequency' + i).html("finger");
+              }
             }
           }
         }
