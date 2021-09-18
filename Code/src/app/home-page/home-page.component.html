@@ -60,7 +60,7 @@
                     </div>
                     <div class="col-md-4 pl-0">
                         <div class="enter-page" style="display: flex;">
-                            <label for="page"> Enter Page No. </label>
+                            <label for="page" style="margin-top: 8px;"> Enter Page No. </label>
                             <input class="page-box" type="text" [(ngModel)]="page" id="page" (keyup)="getSavedData($event,0);">
                         </div>
                     </div>
@@ -150,12 +150,20 @@
                         <label><b>Finger</b></label><br />
                         {{fingerlist}}
                     </div>
-
-                    <div style="background-color: lightgray; margin-top: 10px;" *ngFor="let svt of pdfSentance;">
-
-                        <span style="font-weight: bold;"> {{svt.index}}-{{svt.actual}}</span><br/>
-                        <span> {{svt.modified}}</span>
-                        <button (click)="deleteSentance(svt.index)"    class="btn"><i class="fa fa-trash" style="color: red;"></i></button>
+                    <div class="mt-10" >
+                        <table class="table table-bordered mt-10" *ngFor="let svt of pdfSentance;">
+                            <tbody>
+                              <tr>
+                                <th scope="row" style="width:6%;">{{svt.index}}</th>
+                                <td style="width:88%;"><b> {{svt.actual}}</b>
+                                    <br/>
+                                    {{svt.modified}}
+                                </td>
+                                
+                                <td class="text-center" style="vertical-align: top; width:6%;"><i class="fa fa-trash" style="color: red;"></i></td>
+                              </tr>
+                            </tbody>
+                          </table>
                     </div>
                 </div>
             </div>
