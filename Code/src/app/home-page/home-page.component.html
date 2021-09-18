@@ -159,8 +159,7 @@
                                     <br/>
                                     {{svt.modified}}
                                 </td>
-                                
-                                <td class="text-center" style="vertical-align: top; width:6%;"><i class="fa fa-trash" style="color: red;"></i></td>
+                                <td class="text-center" style="vertical-align: top; width:6%;"><i class="fa fa-trash" style="color: red; cursor: pointer;" (click)="deleteSentance(svt.index)"></i></td>
                               </tr>
                             </tbody>
                           </table>
