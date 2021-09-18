@@ -12,18 +12,19 @@
 
 <body>
     <div>
-            <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLongTitle">Are you sure want to Delete?</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body text-center">
-                      <button type="button" class="btn cnfrm-btn">Confirm</button>
-                      <button type="button" class="btn btn-danger">Cancel</button>
-                    </div>
-                  </div>
+        <div id="divConfirm" class="modal-content text-center" style="display: none;">
+            <input type="hidden" id="hddId" value="0">
+            <div class="modal-header">
+                <h5 class="modal-title " style="text-align: center!important;" id="exampleModalLongTitle">Are you sure
+                    want to Delete?</h5>
+
+            </div>
+            <div class="modal-body text-center">
+                <button type="button" class="btn btn-confirm" (click)="deleteSentance();"
+                    style="background-color: #4AAd43; border-color: #4AAd43; margin-right: 10px;">Confirm</button>
+                <button type="button" class="btn btn-cancel" (click)="closeConfirmModel();">Cancel</button>
+            </div>
+        </div>
         <div class="row" style="display: flex">
             <div class="col-12 pr-0 pl-0">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -73,7 +74,8 @@
                     <div class="col-md-4 pl-0">
                         <div class="enter-page" style="display: flex;">
                             <label for="page" style="margin-top: 8px;"> Enter Page No. </label>
-                            <input class="page-box" type="text" [(ngModel)]="page" id="page" (keyup)="getSavedData($event,0);">
+                            <input class="page-box" type="text" [(ngModel)]="page" id="page"
+                                (keyup)="getSavedData($event,0);">
                         </div>
                     </div>
 
@@ -118,17 +120,21 @@
 
                     <div #contenedor class="categories" style="width:100% ;" cdkDropListGroup>
                         <ng-container *ngFor="let item of everyele;let i=index" style="display: flex;">
-                            <div class="categories-item" cdkDropList 
-                                cdkDropListOrientation="horizontal" [cdkDropListData]="{item:item,index:i}"
-                                (cdkDropListDropped)="drop($event)">
+                            <div class="categories-item" cdkDropList cdkDropListOrientation="horizontal"
+                                [cdkDropListData]="{item:item,index:i}" (cdkDropListDropped)="drop($event)">
                                 <div class="inner" cdkDrag oncontextmenu="return false" id="dragdiv{{i}}">
 
                                     <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
                                     <input type="checkbox" style="float: right;" id="chk{{i}}">
-                                    
-                                    <div id="txt{{i}}" contenteditable="true" style="margin-top: 8px;" (blur)="editText(i)">{{item}}</div>
-                                    <i class="fas fa-times" (click)="deleteFromDatabase(i)" style="color: red;margin-bottom: 0px;float: right;display: none; cursor: pointer; margin-right: -3px; margin-bottom: 5px;" id="dlticon{{i}}"></i>
-                                    <p id="frequency{{i}}" style="float: left;margin-bottom: 0px; font-size: 10px; margin-left: 5px; color: green;"></p>
+
+                                    <div id="txt{{i}}" contenteditable="true" style="margin-top: 8px;"
+                                        (blur)="editText(i)">{{item}}</div>
+                                    <i class="fas fa-times" (click)="deleteFromDatabase(i)"
+                                        style="color: red;margin-bottom: 0px;float: right;display: none; cursor: pointer; margin-right: -3px; margin-bottom: 5px;"
+                                        id="dlticon{{i}}"></i>
+                                    <p id="frequency{{i}}"
+                                        style="float: left;margin-bottom: 0px; font-size: 10px; margin-left: 5px; color: green;">
+                                    </p>
                                 </div>
                             </div>
                         </ng-container>
@@ -150,7 +156,7 @@
                     <br />
 
 
-                    <div style="background-color: lightgray; margin-top: 5px;display: none;" id="cmntextdiv" >
+                    <div style="background-color: lightgray; margin-top: 5px;display: none;" id="cmntextdiv">
                         <label><b>Common Text</b></label><br />
                         {{commontextlist}}
                     </div>
@@ -162,21 +168,21 @@
                         <label><b>Finger</b></label><br />
                         {{fingerlist}}
                     </div>
-                    <div class="mt-10" >
+                    <div class="mt-10">
                         <table class="table table-bordered mt-10" *ngFor="let svt of pdfSentance;">
                             <tbody>
-                              <tr>
-                                <th scope="row" style="width:6%;">{{svt.index}}</th>
-                                <td style="width:88%;"><b> {{svt.actual}}</b>
-                                    <br/>
-                                    {{svt.modified}}
-                                </td>
-                                <td class="text-center" style="vertical-align: top; width:6%;">
-                                    <i class="fa fa-trash" style="color: red; cursor: pointer;"  data-toggle="modal" data-target="#exampleModalCenter"></i>
-                                </td>
-                              </tr>
+                                <tr>
+                                    <th scope="row" style="width:6%;">{{svt.index}}</th>
+                                    <td style="width:88%;"><b> {{svt.actual}}</b>
+                                        <br />
+                                        {{svt.modified}}
+                                    </td>
+                                    <td class="text-center" style="vertical-align: top; width:6%;">
+                                        <i class="fa fa-trash" style="color: red; cursor: pointer;" (click)="openConfirmModel(svt.index);"></i>
+                                    </td>
+                                </tr>
                             </tbody>
-                          </table>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -184,8 +190,8 @@
         </div>
 
 
-  
-  
+
+
         <!-- <section class="footer">
       <div class="row">
         <div class="col-12 pr-0 pl-0">

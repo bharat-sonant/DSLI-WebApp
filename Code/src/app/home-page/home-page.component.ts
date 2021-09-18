@@ -146,7 +146,7 @@ export class HomePageComponent {
 
 
   selectedText() {
-    
+
     $('#savebtn').show();
     $('#blocksbtn').show();
     $('#txtSentance').show();
@@ -260,21 +260,31 @@ export class HomePageComponent {
           console.log(this.editTextList);
         }
       }
-      this.everyele=this.editTextList;
-      let word=this.everyele[i];
-      let dbPath = "WordFrequency/" + word+"/isSignAvailable";
+      this.everyele = this.editTextList;
+      let word = this.everyele[i];
+      let dbPath = "WordFrequency/" + word + "/isSignAvailable";
       this.db.object(dbPath).valueChanges().subscribe(
-        data=>{
-             
-              if(data!=null)
-              {
-                $('#dragdiv' + i).addClass("inner sign-found");
+        data => {
 
-              }
+          if (data != null) {
+            $('#dragdiv' + i).addClass("inner sign-found");
+
+          }
         }
       )
     }
-    
+
+  }
+
+  openConfirmModel(index: any) {
+    $('#hddId').val(index);
+    console.log(index);
+    $('#divConfirm').show();
+  }
+
+  closeConfirmModel() {
+    $('#hddId').val("0");
+    $('#divConfirm').hide();
   }
 
 
@@ -300,17 +310,17 @@ export class HomePageComponent {
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
-        check.checked=false;
+        check.checked = false;
         let divVal = $('#txt' + i).html();
         let element = <HTMLElement>document.getElementById("dragdiv" + i);
         console.log(element.className);
         if (element.className != "inner sign-found") {
-        this.commontextlist.push(divVal);
-        this.saveData(divVal.toLowerCase(), "common");
-        $('#frequency' + i).html("common");
-        this.setAlertMessage("success", "!!!Saved!!!");
+          this.commontextlist.push(divVal);
+          this.saveData(divVal.toLowerCase(), "common");
+          $('#frequency' + i).html("common");
+          this.setAlertMessage("success", "!!!Saved!!!");
         }
-       
+
       }
     }
   }
@@ -346,7 +356,7 @@ export class HomePageComponent {
     for (let i = 0; i < this.everyele.length; i++) {
       let check = <HTMLInputElement>document.getElementById("chk" + i);
       if (check.checked == true) {
-        check.checked=false;
+        check.checked = false;
         let divVal = $('#txt' + i).html();
         let element = <HTMLElement>document.getElementById("dragdiv" + i);
         console.log(element.className);
@@ -357,7 +367,7 @@ export class HomePageComponent {
           this.setAlertMessage("success", "!!!Saved!!!");
         }
 
-        
+
       }
     }
   }
@@ -413,7 +423,7 @@ export class HomePageComponent {
     let isData = false;
     for (let i = 0; i < this.pdfSentance.length; i++) {
       console.log(this.pdfSentance[i]["actual"].trim())
-      let arraylist=this.pdfSentance[i]["actual"].split(" ")
+      let arraylist = this.pdfSentance[i]["actual"].split(" ")
       if (this.textstring == arraylist.join("")) {
         isData = true;
         let dbPath = "PDFSentance/Book1/" + this.page + "/" + this.pdfSentance[i]["index"];
@@ -429,7 +439,7 @@ export class HomePageComponent {
         modified: modified,
         actualString: this.textstring
       }
-       this.db.object(dbPath).update(data);
+      this.db.object(dbPath).update(data);
     }
 
     this.getSavedData(null, 1);
@@ -578,13 +588,16 @@ export class HomePageComponent {
   }
 
 
-  deleteSentance(index: any) {
+  deleteSentance() {
+    let index=$('#hddId').val();
     this.setAlertMessage("success", "Sentence Deleted successfully!!");
     let dbPath = "PDFSentance/Book1/" + this.page + "/" + index;
     this.db.object(dbPath).remove();
     setTimeout(() => {
       this.getSavedData(null, 1);
     }, 200);
+    $('#hddId').val("0");
+    $('#divConfirm').hide();
   }
 
 
