@@ -21,7 +21,7 @@ export class HomePageComponent {
   updatelist: any[];
   elementlist: any[] = [];
   name = 'Angular ' + VERSION.major;
-  pdfSource = "../assets/Pdf/chapter1.pdf";
+  pdfSource = "../assets/Pdf/deen101.pdf";
   textlist1: any[] = [];
   list12: any[] = [];
   htmlToAdd: any;
@@ -426,8 +426,7 @@ export class HomePageComponent {
 
     let isData = false;
     for (let i = 0; i < this.pdfSentance.length; i++) {
-      console.log(this.pdfSentance[i]["actual"].trim())
-      let arraylist = this.pdfSentance[i]["actual"].split(" ")
+      let arraylist = this.pdfSentance[i]["actual"].split(" ");
       if (this.textstring == arraylist.join("")) {
         isData = true;
         let dbPath = "PDFSentance/deen101/" + this.page + "/" + this.pdfSentance[i]["index"];
