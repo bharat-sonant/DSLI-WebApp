@@ -440,8 +440,7 @@ export class HomePageComponent {
 
       const data = {
         actual: this.textlist[0]["text"],
-        modified: modified,
-        actualString: this.textstring
+        modified: modified
       }
       this.db.object(dbPath).update(data);
     }

@@ -176,10 +176,10 @@
                         {{fingerlist}}
                     </div>
                     <div class="mt-10">
-                        <table class="table table-bordered mt-10" *ngFor="let svt of pdfSentance;">
+                        <table class="table table-bordered mt-10" *ngFor="let svt of pdfSentance;let i=index">
                             <tbody>
                                 <tr>
-                                    <th scope="row" style="width:6%;">{{svt.index}}</th>
+                                    <th scope="row" style="width:6%;">{{i+1}}</th>
                                     <td style="width:88%;"><b> {{svt.actual}}</b>
                                         <br />
                                         {{svt.modified}}
