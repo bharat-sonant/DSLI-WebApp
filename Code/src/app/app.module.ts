@@ -16,6 +16,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import {MaterialModule} from './material-module';
 import {MatNativeDateModule} from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
 
 
 @NgModule({
@@ -42,7 +44,8 @@ import { FormsModule } from '@angular/forms';
     MaterialModule,
     MatNativeDateModule,
 
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

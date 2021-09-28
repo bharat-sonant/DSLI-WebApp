@@ -102,6 +102,12 @@
             <div class="col-md-6 pl-0" style="  overflow-x: auto; overflow-y: auto;">
                 <div class="text-bg">
                     PDF SELECTED DATA
+
+                    <input list="wordlist" id="searchword" name="searchword">
+                    <datalist id="wordlist" >
+                        <option *ngFor="let abc of searchwordlist" [ngValue]="abc">{{abc.word2}}</option>
+
+                    </datalist>
                 </div>
                 <div id="divRight">
                     <div class="coppied-text" name="selectedtextview" *ngFor="let txt of textlist">

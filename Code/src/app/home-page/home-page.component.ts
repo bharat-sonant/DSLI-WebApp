@@ -1,4 +1,5 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, VERSION } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { ToastrService } from "ngx-toastr";
@@ -12,6 +13,7 @@ import { ToastrService } from "ngx-toastr";
 })
 export class HomePageComponent {
   textlist: any[];
+  searchwordlist: any[];
   splittxt: any[] = [];
   splittxt1: any[] = [];
   splitstatment: any[] = [];
@@ -52,11 +54,13 @@ export class HomePageComponent {
   DataList: any[];
   getdataList: any[];
   delList: any[];
+  wordsData: any[];
 
-  constructor(public db: AngularFireDatabase, public toastr: ToastrService) {
+  constructor(public db: AngularFireDatabase, public toastr: ToastrService, private httpClient: HttpClient) {
   }
 
   ngOnInit() {
+    this.searchWord();
     this.getDeleted();
     this.datalist = [];
     this.filterList = [];
@@ -589,7 +593,7 @@ export class HomePageComponent {
 
 
   deleteSentance() {
-    let index=$('#hddId').val();
+    let index = $('#hddId').val();
     this.setAlertMessage("success", "Sentence Deleted successfully!!");
     let dbPath = "PDFSentance/Book1/" + this.page + "/" + index;
     this.db.object(dbPath).remove();
@@ -618,6 +622,19 @@ export class HomePageComponent {
     this.getDeletedList = dlist;
   }
 
+  searchWord() {
+    this.wordsData = [];
+    this.searchwordlist = [];
+    this.httpClient.get<any>("../assets/availablewords.json").subscribe(data => {
+     if(data!=null)
+     {
+      this.wordsData = data;
+      for (let i = 0; i < this.wordsData.length; i++) {
+        this.searchwordlist.push({ word2: this.wordsData[i]["word1"] });
+      }
+    }
+  });
+  }
 
 
 }
