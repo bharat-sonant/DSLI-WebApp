@@ -21,7 +21,7 @@ export class HomePageComponent {
   updatelist: any[];
   elementlist: any[] = [];
   name = 'Angular ' + VERSION.major;
-  pdfSource = "../assets/chapter1.pdf";
+  pdfSource = "../assets/Pdf/chapter1.pdf";
   textlist1: any[] = [];
   list12: any[] = [];
   htmlToAdd: any;
@@ -85,7 +85,7 @@ export class HomePageComponent {
   getSavedData(event: any, type: any) {
     if (type == 1) {
       this.pdfSentance = [];
-      let dbPath = "PDFSentance/Book1/" + this.page;
+      let dbPath = "PDFSentance/deen101/" + this.page;
       let instance = this.db.object(dbPath).valueChanges().subscribe(
         data => {
           instance.unsubscribe();
@@ -107,7 +107,7 @@ export class HomePageComponent {
       this.prevPage = Number(pageNo);
       if (pageNo != "") {
         this.pdfSentance = [];
-        let dbPath = "PDFSentance/Book1/" + Number(pageNo);
+        let dbPath = "PDFSentance/deen101/" + Number(pageNo);
         let instance = this.db.object(dbPath).valueChanges().subscribe(
           data => {
             instance.unsubscribe();
@@ -159,7 +159,7 @@ export class HomePageComponent {
       this.textlist = [];
       this.arrayList = [];
       this.pdfSentance = [];
-      let dbPath = "PDFSentance/Book1/" + this.page;
+      let dbPath = "PDFSentance/deen101/" + this.page;
       let instance = this.db.object(dbPath).valueChanges().subscribe(
         data => {
           instance.unsubscribe();
@@ -178,7 +178,7 @@ export class HomePageComponent {
     }
     else {
       this.pdfSentance = [];
-      let dbPath = "PDFSentance/Book1/" + this.page;
+      let dbPath = "PDFSentance/deen101/" + this.page;
       let instance = this.db.object(dbPath).valueChanges().subscribe(
         data => {
           instance.unsubscribe();
@@ -430,13 +430,13 @@ export class HomePageComponent {
       let arraylist = this.pdfSentance[i]["actual"].split(" ")
       if (this.textstring == arraylist.join("")) {
         isData = true;
-        let dbPath = "PDFSentance/Book1/" + this.page + "/" + this.pdfSentance[i]["index"];
+        let dbPath = "PDFSentance/deen101/" + this.page + "/" + this.pdfSentance[i]["index"];
         this.db.object(dbPath).update({ modified: modified });
       }
     }
     if (isData == false) {
       this.setAlertMessage("success", "!!!Saved!!!");
-      let dbPath = "PDFSentance/Book1/" + this.page + "/" + this.sentanceNo;
+      let dbPath = "PDFSentance/deen101/" + this.page + "/" + this.sentanceNo;
 
       const data = {
         actual: this.textlist[0]["text"],
@@ -595,7 +595,7 @@ export class HomePageComponent {
   deleteSentance() {
     let index = $('#hddId').val();
     this.setAlertMessage("success", "Sentence Deleted successfully!!");
-    let dbPath = "PDFSentance/Book1/" + this.page + "/" + index;
+    let dbPath = "PDFSentance/deen101/" + this.page + "/" + index;
     this.db.object(dbPath).remove();
     setTimeout(() => {
       this.getSavedData(null, 1);
